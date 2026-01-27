@@ -18,10 +18,11 @@ import yaml
 import os
 import io
 from PIL import Image
-import speech_recognition as sr
+import speech_recognition as sr # Removed - moved to voice_processor
 import tempfile
 import shutil
-from pydub import AudioSegment
+# pydub removed - moved to voice_processor
+from models.voice_processor import transcribe_audio
 
 
 # Load .env from parent directory
@@ -51,7 +52,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # ------------------ TOMATO CONFIG ------------------
 TOMATO_LEAF_MODEL = os.path.join(MODELS_PATH, "best.pt")
-TOMATO_CLS_MODEL  = os.path.join(MODELS_PATH, "resnet18_tomato_best .pth")
+TOMATO_CLS_MODEL  = os.path.join(MODELS_PATH, "resnet18_tomato_best.pth")
 TOMATO_DATA_YAML  = os.path.join(MODELS_PATH, "data.yaml")
 TOMATO_IMG_SIZE   = 224
 TOMATO_CONF_THRES = 0.4
@@ -533,45 +534,16 @@ async def diagnose_audio_endpoint(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, tmp)
             temp_filename = tmp.name
 
-        # Convert to WAV (pydub handles m4a/mp3/aac)
-        # Convert/Normalize to clean WAV (pydub handles this using standard wave module for .wav)
+        # Transcribe using separated module
         try:
-            work_file = temp_filename
-            # Force conversion/normalization to 16kHz mono for best recognition results
-            # This also fixes issues where Android might send a "WAV" that has weird headers or float samples
-            audio = AudioSegment.from_file(temp_filename)
-            wav_filename = temp_filename + "_converted.wav"
-            
-            # Normalize to 16kHz 1 channel (standard for speech recognition)
-            audio = audio.set_frame_rate(16000).set_channels(1)
-            audio.export(wav_filename, format="wav")
-            work_file = wav_filename
-            print(f"✅ Audio normalized: {audio.duration_seconds}s, {audio.channels}ch, {audio.frame_rate}Hz")
-            
+            text = transcribe_audio(temp_filename)
+        except sr.UnknownValueError:
+             return JSONResponse(status_code=400, content={"success": False, "error": "Could not understand audio"})
+        except sr.RequestError as e:
+             return JSONResponse(status_code=500, content={"success": False, "error": f"Speech API error: {e}"})
         except Exception as e:
-            print(f"Audio conversion/normalization error: {e}, attempting to use original file. (Note: ffmpeg might be missing if non-wav)")
-            work_file = temp_filename
-
-        # Transcribe with SpeechRecognition
-        print("▶️ Starting Transcription...")
-        r = sr.Recognizer()
-        with sr.AudioFile(work_file) as source:
-            print("   Reading audio file...")
-            audio_data = r.record(source)
-            try:
-                # Uses Google Web Speech API (free, no key required for basic usage)
-                print("   Sending to Google Speech API...")
-                text = r.recognize_google(audio_data)
-                print(f"🎤 Transcribed: {text}")
-            except sr.UnknownValueError:
-                print("❌ Speech Recognition: Unknown Value")
-                return JSONResponse(status_code=400, content={"success": False, "error": "Could not understand audio"})
-            except sr.RequestError as e:
-                print(f"❌ Speech Recognition API Error: {e}")
-                return JSONResponse(status_code=500, content={"success": False, "error": f"Speech API error: {e}"})
-            except Exception as e:
-                print(f"❌ Unexpected Speech Error: {e}")
-                raise e
+             print(f"❌ Audio Processing Error: {e}")
+             return JSONResponse(status_code=500, content={"success": False, "error": f"Audio Error: {e}"})
 
         # Reuse existing logic
         print(f"▶️ Translating text: {text}")
