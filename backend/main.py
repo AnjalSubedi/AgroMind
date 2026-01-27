@@ -99,15 +99,15 @@ def load_csv():
     csv_path = os.path.join(MODEL_DIR, "disease_guide.csv")
     
     if not os.path.exists(csv_path):
-        print(f"❌ ERROR: CSV file not found at {csv_path}")
+        print(f" ERROR: CSV file not found at {csv_path}")
         return False
 
     try:
         paddy_diseases = pd.read_csv(csv_path)
-        print(f"✅ Loaded {len(paddy_diseases)} diseases from {csv_path}")
+        print(f"Loaded {len(paddy_diseases)} diseases from {csv_path}")
         return True
     except Exception as e:
-        print(f"❌ Error loading CSV: {e}")
+        print(f" Error loading CSV: {e}")
         return False
 
 def translate_to_english(text):
@@ -123,7 +123,7 @@ def translate_to_english(text):
         translated_text = translator.translate(text)
         return translated_text
     except Exception as e:
-        print(f"❌ Translation error: {e}")
+        print(f"Translation error: {e}")
         return text
 
 def fallback_match(user_text):
@@ -162,7 +162,7 @@ def classify_with_cohere(user_symptoms):
         return []
     
     if not co:
-        print("⚠️ Cohere client unavailable, using fallback")
+        print(" Cohere client unavailable, using fallback")
         return fallback_match(user_symptoms)
         
     try:
@@ -223,7 +223,7 @@ def classify_with_cohere(user_symptoms):
         return results
 
     except Exception as e:
-        print(f"❌ Cohere error: {e}")
+        print(f" Cohere error: {e}")
         return fallback_match(user_symptoms)
 
 # ------------------ LOAD MODELS ------------------
@@ -236,15 +236,15 @@ def load_tomato_models():
         # 1. YOLO Detector
         detector_path = os.path.join("models", "tomato_yolo_new.pt") 
         if os.path.exists(detector_path):
-            print(f"✅ Loading Tomato YOLO from {detector_path}...")
+            print(f" Loading Tomato YOLO from {detector_path}...")
             tomato_detector = YOLO(detector_path) 
         else:
-            print(f"❌ Tomato Detector not found at {detector_path}")
+            print(f" Tomato Detector not found at {detector_path}")
 
         # 2. ResNet50 Classifier
         classifier_path = os.path.join("models", "tomato_resnet_new.pt")
         if os.path.exists(classifier_path):
-            print(f"✅ Loading Tomato Classifier (ResNet50) from {classifier_path}...")
+            print(f" Loading Tomato Classifier (ResNet50) from {classifier_path}...")
             # Initialize ResNet50
             tomato_classifier = models.resnet50(weights=None)
             tomato_classifier.fc = nn.Linear(tomato_classifier.fc.in_features, len(TOMATO_CLASSES))
@@ -255,10 +255,10 @@ def load_tomato_models():
             tomato_classifier.to(DEVICE)
             tomato_classifier.eval()
         else:
-             print(f"❌ Tomato Classifier not found at {classifier_path}")
+             print(f" Tomato Classifier not found at {classifier_path}")
 
     except Exception as e:
-        print(f"❌ Error loading Tomato models: {e}")
+        print(f" Error loading Tomato models: {e}")
 
 def load_potato_models():
     """Load updated Potato ResNet50 classifier"""
@@ -266,7 +266,7 @@ def load_potato_models():
     try:
         model_path = os.path.join("models", "potato_resnet50_new.pt")
         if os.path.exists(model_path):
-             print(f"✅ Loading Potato Model from {model_path}...")
+             print(f" Loading Potato Model from {model_path}...")
              # Initialize ResNet50
              potato_model = models.resnet50(weights=None)
              potato_model.fc = nn.Linear(potato_model.fc.in_features, len(potato_classes))
@@ -282,10 +282,10 @@ def load_potato_models():
              potato_model.to(DEVICE)
              potato_model.eval()
         else:
-             print(f"❌ Potato model not found at {model_path}")
+             print(f" Potato model not found at {model_path}")
 
     except Exception as e:
-        print(f"❌ Error loading Potato model: {e}")
+        print(f" Error loading Potato model: {e}")
 
 def load_rice_models():
     """Load updated Rice ResNet50 classifier"""
@@ -293,7 +293,7 @@ def load_rice_models():
     try:
         model_path = os.path.join("models", "rice_new.pth")
         if os.path.exists(model_path):
-             print(f"✅ Loading Rice Model from {model_path}...")
+             print(f" Loading Rice Model from {model_path}...")
              # Initialize ResNet50
              rice_model = models.resnet50(weights=None)
              rice_model.fc = nn.Linear(rice_model.fc.in_features, len(RICE_CLASSES))
@@ -310,10 +310,10 @@ def load_rice_models():
              rice_model.to(DEVICE)
              rice_model.eval()
         else:
-             print(f"❌ Rice model not found at {model_path}")
+             print(f" Rice model not found at {model_path}")
              
     except Exception as e:
-        print(f"❌ Error loading Rice model: {e}")
+        print(f" Error loading Rice model: {e}")
 
 # ------------------ PREPROCESSING ------------------
 # Potato & Rice: Standard ResNet (Resize 256 -> Crop 224)
@@ -326,6 +326,7 @@ standard_val_tfms = transforms.Compose([
 
 # Tomato: Resize 224 (No Crop) as per app.py
 tomato_val_tfms = transforms.Compose([
+    transforms.ToPILImage(),
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
