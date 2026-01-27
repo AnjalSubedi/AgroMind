@@ -227,74 +227,8 @@ def classify_with_cohere(user_symptoms):
         return fallback_match(user_symptoms)
 
 # ------------------ LOAD MODELS ------------------
-def load_tomato_models():
-    global tomato_detector, tomato_classifier, tomato_class_names
-    
-    # Load class names
-    if os.path.exists(TOMATO_DATA_YAML):
-        with open(TOMATO_DATA_YAML, "r", encoding="utf-8") as f:
-            tomato_class_names = yaml.safe_load(f)["names"]
-    
-    num_classes = len(tomato_class_names)
-
-    # Load classifier
-    print(f"Loading Tomato Classifier from {TOMATO_CLS_MODEL}...")
-    model = models.resnet18(weights=None)
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
-    if os.path.exists(TOMATO_CLS_MODEL):
-        model.load_state_dict(torch.load(TOMATO_CLS_MODEL, map_location=DEVICE, weights_only=False))
-        print("Tomato Classifier loaded successfully.")
-    else:
-        print(f"Warning: {TOMATO_CLS_MODEL} not found.")
-
-    tomato_classifier = model.to(DEVICE).eval()
-
-    # Load YOLO leaf detector
-    print(f"Loading Tomato YOLO Detector from {TOMATO_LEAF_MODEL}...")
-    if os.path.exists(TOMATO_LEAF_MODEL):
-        tomato_detector = YOLO(TOMATO_LEAF_MODEL)
-        print("Tomato Detector loaded successfully.")
-    else:
-        print(f"Warning: {TOMATO_LEAF_MODEL} not found.")
-
-def load_potato_models():
-    global potato_model, potato_classes, potato_img_size, potato_mean, potato_std, potato_preprocess
-
-    print(f"Loading Potato Model from {POTATO_CKPT_PATH}...")
-    if not os.path.exists(POTATO_CKPT_PATH):
-        print(f"Warning: {POTATO_CKPT_PATH} not found.")
-        return
-
-    ckpt = torch.load(POTATO_CKPT_PATH, map_location=DEVICE, weights_only=False)
-    potato_classes = ckpt["classes"]
-    potato_img_size = ckpt["img_size"]
-    potato_mean = ckpt["mean"]
-    potato_std = ckpt["std"]
-    """Load updated Potato ResNet50 classifier"""
-    global potato_model
-    try:
-        model_path = os.path.join("models", "potato_resnet50_new.pt")
-        if os.path.exists(model_path):
-             print(f"✅ Loading Potato Model from {model_path}...")
-             # Initialize ResNet50
-             potato_model = models.resnet50(weights=None)
-             potato_model.fc = nn.Linear(potato_model.fc.in_features, len(potato_classes))
-             
-             # Load from checkpoint dict
-             ckpt = torch.load(model_path, map_location=DEVICE)
-             # Handle 'model_state_dict' key if present (as seen in app.py)
-             if isinstance(ckpt, dict) and "model_state_dict" in ckpt:
-                 potato_model.load_state_dict(ckpt["model_state_dict"])
-             else:
-                 potato_model.load_state_dict(ckpt)
-                 
-             potato_model.to(DEVICE)
-             potato_model.eval()
-        else:
-             print(f"❌ Potato model not found at {model_path}")
-
-    except Exception as e:
-        print(f"❌ Error loading Potato model: {e}")
+# ------------------ LOAD MODELS ------------------
+# (Old load functions removed)
 
 def load_rice_models():
     """Load updated Rice ResNet50 classifier"""
@@ -303,11 +237,17 @@ def load_rice_models():
         model_path = os.path.join("models", "rice_new.pth")
         if os.path.exists(model_path):
              print(f"✅ Loading Rice Model from {model_path}...")
-             # Initialize ResNet50 (Changed from EfficientNet)
+             # Initialize ResNet50
              rice_model = models.resnet50(weights=None)
              rice_model.fc = nn.Linear(rice_model.fc.in_features, len(RICE_CLASSES))
              
-             state_dict = torch.load(model_path, map_location=DEVICE)
+             ckpt = torch.load(model_path, map_location=DEVICE)
+             # Unwrap if it's a dict containing 'model_state_dict' (like Potato/Tomato often have)
+             if isinstance(ckpt, dict) and 'model_state_dict' in ckpt:
+                 state_dict = ckpt['model_state_dict']
+             else:
+                 state_dict = ckpt
+                 
              rice_model.load_state_dict(state_dict)
              
              rice_model.to(DEVICE)
