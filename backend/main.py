@@ -350,11 +350,57 @@ def load_rice_models():
         ),
     ])
 
-# Initialize models on startup
-load_tomato_models()
-load_potato_models()
-load_rice_models()
+# ------------------ MEMORY MANAGEMENT ------------------
+import gc
+
+def unload_models():
+    """Release all models from memory to prevent OOM"""
+    global tomato_detector, tomato_classifier
+    global potato_model
+    global rice_model
+    
+    # Tomato
+    tomato_detector = None
+    tomato_classifier = None
+    
+    # Potato
+    potato_model = None
+    
+    # Rice
+    rice_model = None
+    
+    gc.collect()
+    print("🧹 Models unloaded from memory")
+
+def ensure_model(model_type: str):
+    """
+    Ensure only the requested model is loaded. 
+    Unloads others to save RAM (Render Free Tier limit 512MB).
+    """
+    global tomato_classifier, potato_model, rice_model
+    
+    if model_type == 'tomato':
+        if tomato_classifier is not None: return # Already loaded
+        print("🔄 Switching to TOMATO model...")
+        unload_models()
+        load_tomato_models()
+        
+    elif model_type == 'potato':
+        if potato_model is not None: return
+        print("🔄 Switching to POTATO model...")
+        unload_models()
+        load_potato_models()
+        
+    elif model_type == 'rice':
+        if rice_model is not None: return
+        print("🔄 Switching to RICE model...")
+        unload_models()
+        load_rice_models()
+
+# Initialize CSV only on startup (low memory)
 load_csv()
+# Do NOT load heavy models here. They will load on first request.
+
 
 # ------------------ TOMATO UTILS ------------------
 tomato_val_tfms = transforms.Compose([
@@ -411,8 +457,9 @@ def home():
 
 @app.post("/predict/tomato")
 async def predict_tomato(file: UploadFile = File(...)):
+    ensure_model('tomato')
     if not tomato_classifier:
-        return JSONResponse(status_code=503, content={"error": "Tomato model not loaded"})
+        return JSONResponse(status_code=503, content={"error": "Tomato model load failed"})
 
     data = await file.read()
     img_arr = np.frombuffer(data, np.uint8)
@@ -440,8 +487,9 @@ async def predict_tomato(file: UploadFile = File(...)):
 
 @app.post("/predict/potato")
 async def predict_potato(file: UploadFile = File(...)):
+    ensure_model('potato')
     if not potato_model:
-         return JSONResponse(status_code=503, content={"error": "Potato model not loaded"})
+         return JSONResponse(status_code=503, content={"error": "Potato model load failed"})
 
     # Validate file type quickly - Relaxed for tolerance
     # if not file.content_type or not file.content_type.startswith("image/"):
@@ -472,8 +520,9 @@ async def predict_potato(file: UploadFile = File(...)):
 
 @app.post("/predict/rice")
 async def predict_rice(file: UploadFile = File(...)):
+    ensure_model('rice')
     if not rice_model:
-         return JSONResponse(status_code=503, content={"error": "Rice model not loaded"})
+         return JSONResponse(status_code=503, content={"error": "Rice model load failed"})
 
     # Read image bytes
     image_bytes = await file.read()
