@@ -228,7 +228,64 @@ def classify_with_cohere(user_symptoms):
 
 # ------------------ LOAD MODELS ------------------
 # ------------------ LOAD MODELS ------------------
-# (Old load functions removed)
+
+def load_tomato_models():
+    """Load updated Tomato YOLO detector and ResNet50 classifier"""
+    global tomato_detector, tomato_classifier
+    try:
+        # 1. YOLO Detector
+        detector_path = os.path.join("models", "tomato_yolo_new.pt") 
+        if os.path.exists(detector_path):
+            print(f"✅ Loading Tomato YOLO from {detector_path}...")
+            tomato_detector = YOLO(detector_path) 
+        else:
+            print(f"❌ Tomato Detector not found at {detector_path}")
+
+        # 2. ResNet50 Classifier
+        classifier_path = os.path.join("models", "tomato_resnet_new.pt")
+        if os.path.exists(classifier_path):
+            print(f"✅ Loading Tomato Classifier (ResNet50) from {classifier_path}...")
+            # Initialize ResNet50
+            tomato_classifier = models.resnet50(weights=None)
+            tomato_classifier.fc = nn.Linear(tomato_classifier.fc.in_features, len(TOMATO_CLASSES))
+            
+            # Load weights
+            state_dict = torch.load(classifier_path, map_location=DEVICE)
+            tomato_classifier.load_state_dict(state_dict)
+            tomato_classifier.to(DEVICE)
+            tomato_classifier.eval()
+        else:
+             print(f"❌ Tomato Classifier not found at {classifier_path}")
+
+    except Exception as e:
+        print(f"❌ Error loading Tomato models: {e}")
+
+def load_potato_models():
+    """Load updated Potato ResNet50 classifier"""
+    global potato_model
+    try:
+        model_path = os.path.join("models", "potato_resnet50_new.pt")
+        if os.path.exists(model_path):
+             print(f"✅ Loading Potato Model from {model_path}...")
+             # Initialize ResNet50
+             potato_model = models.resnet50(weights=None)
+             potato_model.fc = nn.Linear(potato_model.fc.in_features, len(potato_classes))
+             
+             # Load from checkpoint dict
+             ckpt = torch.load(model_path, map_location=DEVICE)
+             # Handle 'model_state_dict' key if present (as seen in app.py)
+             if isinstance(ckpt, dict) and "model_state_dict" in ckpt:
+                 potato_model.load_state_dict(ckpt["model_state_dict"])
+             else:
+                 potato_model.load_state_dict(ckpt)
+                 
+             potato_model.to(DEVICE)
+             potato_model.eval()
+        else:
+             print(f"❌ Potato model not found at {model_path}")
+
+    except Exception as e:
+        print(f"❌ Error loading Potato model: {e}")
 
 def load_rice_models():
     """Load updated Rice ResNet50 classifier"""
