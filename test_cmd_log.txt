@@ -1,0 +1,37 @@
+00:00 +0: loading C:/Users/basto/OneDrive/Documents/IMPORTANT/hackathon/cropdetect/test/home_localization_test.dart
+test/home_localization_test.dart:43:21: Error: The return type of the method 'MockHttpClientResponse.listen' is 'Stream<List<int>>', which does not match the return type, 'StreamSubscription<List<int>>', of the overridden method, 'Stream.listen'.
+ - 'Stream' is from 'dart:async'.
+ - 'List' is from 'dart:core'.
+ - 'StreamSubscription' is from 'dart:async'.
+Change to a subtype of 'StreamSubscription<List<int>>'.
+  Stream<List<int>> listen(
+                    ^
+org-dartlang-sdk:///flutter/third_party/dart/sdk/lib/async/stream.dart:723:25: Context: This is the overridden method ('listen').
+  StreamSubscription<T> listen(
+                        ^
+test/home_localization_test.dart:49:54: Error: A value of type 'StreamSubscription<List<int>>' can't be returned from a function with return type 'Stream<List<int>>'.
+ - 'StreamSubscription' is from 'dart:async'.
+ - 'List' is from 'dart:core'.
+ - 'Stream' is from 'dart:async'.
+    return Stream<List<int>>.fromIterable([<int>[]]).listen(
+                                                     ^
+00:00 +0 -1: loading C:/Users/basto/OneDrive/Documents/IMPORTANT/hackathon/cropdetect/test/home_localization_test.dart [E]
+  Failed to load "C:/Users/basto/OneDrive/Documents/IMPORTANT/hackathon/cropdetect/test/home_localization_test.dart":
+  Compilation failed for testPath=C:/Users/basto/OneDrive/Documents/IMPORTANT/hackathon/cropdetect/test/home_localization_test.dart: test/home_localization_test.dart:43:21: Error: The return type of the method 'MockHttpClientResponse.listen' is 'Stream<List<int>>', which does not match the return type, 'StreamSubscription<List<int>>', of the overridden method, 'Stream.listen'.
+   - 'Stream' is from 'dart:async'.
+   - 'List' is from 'dart:core'.
+   - 'StreamSubscription' is from 'dart:async'.
+  Change to a subtype of 'StreamSubscription<List<int>>'.
+    Stream<List<int>> listen(
+                      ^
+  org-dartlang-sdk:///flutter/third_party/dart/sdk/lib/async/stream.dart:723:25: Context: This is the overridden method ('listen').
+    StreamSubscription<T> listen(
+                          ^
+  test/home_localization_test.dart:49:54: Error: A value of type 'StreamSubscription<List<int>>' can't be returned from a function with return type 'Stream<List<int>>'.
+   - 'StreamSubscription' is from 'dart:async'.
+   - 'List' is from 'dart:core'.
+   - 'Stream' is from 'dart:async'.
+      return Stream<List<int>>.fromIterable([<int>[]]).listen(
+                                                       ^
+  .
+00:00 +0 -1: Some tests failed.

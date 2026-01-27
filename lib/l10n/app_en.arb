@@ -1,0 +1,149 @@
+{
+  "profileTitle": "Profile",
+  "name": "Ram Bahadur",
+  "location": "Chitwan, Nepal",
+  "settings": "Settings",
+  "language": "Language",
+  "scanHistory": "Scan History",
+  "helpSupport": "Help & Support",
+  "signOut": "Sign Out",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "nepali": "नेपाली",
+  "appTitle": "Sajilokheti",
+  "appSubtitle": "Your Crop Doctor",
+  "greeting": "Namaste, Farmer!",
+  "welcomeUser": "Hello, {name}!",
+  "@welcomeUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "greetingSubtitle": "What crop needs checking today?",
+  "selectCrop": "Select Crop for Diagnosis",
+  "seeAll": "See All",
+  "quickActions": "Quick Actions",
+  "takePhoto": "Take a Photo",
+  "askExpert": "Ask an Expert",
+  "rice": "Rice",
+  "potato": "Potato",
+  "tomato": "Tomato",
+  "community": "Community",
+  "farmer": "Farmer",
+  "diagnoseDisease": "Diagnose Disease",
+  "describeSymptoms": "Describe Symptoms",
+  "micPrompt": "Tap the mic and describe what you see on your crop.",
+  "recording": "Recording... Tap to stop",
+  "analyzingAudio": "Analyzing audio...",
+  "tapToRecord": "Tap to Record",
+  "detectedDescription": "Detected Description:",
+  "analyzeDescription": "Analyze Description",
+  "audioAnalysisComingSoon": "Analysis based on audio description coming soon!",
+  "orSelectCrop": "Or Select a Crop",
+  "selectMethod": "Select Method",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "cropDisease": "{cropName} Disease",
+  "@cropDisease": {
+    "placeholders": {
+      "cropName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadImagePrompt": "Upload an image of the {cropName} leaf to detect diseases.",
+  "@uploadImagePrompt": {
+    "placeholders": {
+      "cropName": {
+        "type": "String"
+      }
+    }
+  },
+  "tapToAddPhoto": "Tap to add photo",
+  "changePhoto": "Change Photo",
+  "selectImage": "Select Image",
+  "analyzeDisease": "Analyze Disease",
+  "analysisComingSoon": "Analysis feature coming soon!",
+  "pickImageError": "Failed to pick image: ",
+  "navHome": "Home",
+  "navDiagnose": "Diagnose",
+  "navCommunity": "Community",
+  "navProfile": "Profile",
+  "highHumidityWarning": "High humidity - check for fungus",
+  "highTempWarning": "High temperature - ensure irrigation",
+  "lowTempWarning": "Low temperature - protect from frost",
+  "goodWeatherMessage": "Weather is good for crops",
+  "locationPermissionDeny": "Location permission denied",
+  "weatherLoadError": "Failed to load weather",
+  "retry": "Retry",
+  "todayWeather": "Today's Weather",
+  "humidity": "Humidity",
+  "refinedPrompt": "Refined Prompt (Cohere):",
+  "analysisError": "Analysis Error: ",
+  "error": "Error: ",
+  "analysisFailed": "Analysis failed: ",
+  "analysisResult": "Analysis Result",
+  "confidence": "Confidence: ",
+  "diagnosisTitle": "Diagnosis",
+  "treatmentTitle": "Recommended Treatment",
+  "careTipsTitle": "Care Tips",
+  "done": "Done",
+  "diseaseHealthy": "Healthy",
+  "diseaseEarlyBlight": "Early Blight",
+  "descHealthy": "Your crop looks healthy and vibrant. No signs of disease were detected.",
+  "descEarlyBlight": "Fungal infection characterized by dark spots on older leaves. Common in tomatoes and potatoes.",
+  "treatHealthy": "Continue regular watering.\nMonitor for pests.\nEnsure proper sunlight.",
+  "treatEarlyBlight": "Remove infected leaves immediately.\nImprove air circulation around plants.\nApply copper-based fungicides.\nAvoid overhead watering.",
+  "aboutApp": "About App",
+  "aboutDescription": "Sajilokheti is an AI-powered app detecting crop diseases in rice, potato, and tomato. It empowers farmers with instant diagnosis and treatment advice.",
+  "developedBy": "Developed By",
+  "computerEngineers": "Computer Engineers",
+  "settingsTitle": "Settings",
+  "settingsMessage": "Settings feature coming soon!",
+  "helpSupportTitle": "Help & Support",
+  "helpSupportMessage": "Contact us at support@sajilokheti.com",
+  "newPost": "New Post",
+  "whatsOnYourMind": "What's on your mind?",
+  "postAction": "Post",
+  "noPosts": "No posts yet",
+  "beFirstToAsk": "Be the first to ask a question!",
+  "justNow": "Just now",
+  "daysAgo": "{count}d ago",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count}h ago",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesAgo": "{count}m ago",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "general": "General",
+  "notifications": "Notifications",
+  "darkMode": "Dark Mode",
+  "account": "Account",
+  "deleteAccount": "Delete Account",
+  "deleteAccountMsg": "Account deletion not implemented yet",
+  "severityLevel": "Severity: {level}",
+  "severityLow": "Low",
+  "severityMedium": "Medium",
+  "severityHigh": "High",
+  "references": "References",
+  "step": "Step {number}"
+}

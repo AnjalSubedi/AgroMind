@@ -1,0 +1,273 @@
+[ +357 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[   +1 ms] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[  +30 ms] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[   +2 ms] executing: [C:\fltr\flutter/] git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[  +85 ms] Exit code 0 from: git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[        ] 2026-01-13 13:47:42 -0800
+[  +20 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[   +4 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +61 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[   +3 ms] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[ +126 ms] Skipping pub get: version match.
+[ +133 ms] Found plugin record at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.1.2\
+[  +20 ms] Found plugin record_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[  +12 ms] Found plugin record_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.2.2\
+[   +7 ms] Found plugin record_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.1.2\
+[   +5 ms] Found plugin record_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.2.1\
+[   +7 ms] Found plugin record_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.1.5\
+[   +4 ms] Found plugin record_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.4.5\
+[  +11 ms] Found plugin permission_handler at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +3 ms] Found plugin permission_handler_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +9 ms] Found plugin permission_handler_html at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +3 ms] Found plugin permission_handler_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +2 ms] Found plugin permission_handler_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +5 ms] Found plugin path_provider at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +3 ms] Found plugin path_provider_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[  +10 ms] Found plugin path_provider_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +5 ms] Found plugin path_provider_foundation at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.6.0\
+[  +38 ms] Found plugin path_provider_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[  +13 ms] Found plugin image_picker at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker-1.2.1\
+[   +4 ms] Found plugin image_picker_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_windows-0.2.2\
+[  +10 ms] Found plugin file_selector_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_windows-0.9.3+5\
+[   +7 ms] Found plugin image_picker_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_macos-0.2.2+1\
+[   +3 ms] Found plugin file_selector_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_macos-0.9.5\
+[   +2 ms] Found plugin image_picker_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_linux-0.2.2\
+[   +2 ms] Found plugin file_selector_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_linux-0.9.4\
+[   +2 ms] Found plugin image_picker_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_ios-0.8.13+3\
+[   +2 ms] Found plugin image_picker_for_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_for_web-3.1.1\
+[   +4 ms] Found plugin image_picker_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.13+12\
+[   +3 ms] Found plugin flutter_plugin_android_lifecycle at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.33\
+[   +5 ms] Found plugin geolocator at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator-10.1.1\
+[   +2 ms] Found plugin geolocator_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_windows-0.2.5\
+[   +4 ms] Found plugin geolocator_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_web-2.2.1\
+[   +2 ms] Found plugin geolocator_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_apple-2.3.13\
+[   +3 ms] Found plugin geolocator_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_android-4.6.2\
+[ +100 ms] Found plugin record at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.1.2\
+[  +10 ms] Found plugin record_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +6 ms] Found plugin record_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.2.2\
+[   +6 ms] Found plugin record_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.1.2\
+[   +2 ms] Found plugin record_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.2.1\
+[   +2 ms] Found plugin record_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.1.5\
+[   +3 ms] Found plugin record_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.4.5\
+[   +8 ms] Found plugin permission_handler at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +3 ms] Found plugin permission_handler_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +5 ms] Found plugin permission_handler_html at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +2 ms] Found plugin permission_handler_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +3 ms] Found plugin permission_handler_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +4 ms] Found plugin path_provider at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +4 ms] Found plugin path_provider_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[  +11 ms] Found plugin path_provider_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +5 ms] Found plugin path_provider_foundation at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.6.0\
+[  +24 ms] Found plugin path_provider_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[   +5 ms] Found plugin image_picker at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker-1.2.1\
+[   +2 ms] Found plugin image_picker_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_windows-0.2.2\
+[  +10 ms] Found plugin file_selector_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_windows-0.9.3+5\
+[   +4 ms] Found plugin image_picker_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_macos-0.2.2+1\
+[   +2 ms] Found plugin file_selector_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_macos-0.9.5\
+[   +1 ms] Found plugin image_picker_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_linux-0.2.2\
+[   +1 ms] Found plugin file_selector_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_linux-0.9.4\
+[   +2 ms] Found plugin image_picker_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_ios-0.8.13+3\
+[   +2 ms] Found plugin image_picker_for_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_for_web-3.1.1\
+[   +5 ms] Found plugin image_picker_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.13+12\
+[   +2 ms] Found plugin flutter_plugin_android_lifecycle at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.33\
+[   +4 ms] Found plugin geolocator at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator-10.1.1\
+[   +2 ms] Found plugin geolocator_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_windows-0.2.5\
+[   +4 ms] Found plugin geolocator_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_web-2.2.1\
+[   +2 ms] Found plugin geolocator_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_apple-2.3.13\
+[   +2 ms] Found plugin geolocator_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_android-4.6.2\
+[  +20 ms] Skipping generating web_plugin_registrant.dart because it is up-to-date.
+[  +58 ms] Found plugin record at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.1.2\
+[   +8 ms] Found plugin record_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +6 ms] Found plugin record_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.2.2\
+[   +8 ms] Found plugin record_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.1.2\
+[   +2 ms] Found plugin record_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.2.1\
+[   +2 ms] Found plugin record_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.1.5\
+[   +3 ms] Found plugin record_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.4.5\
+[   +6 ms] Found plugin permission_handler at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +2 ms] Found plugin permission_handler_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +4 ms] Found plugin permission_handler_html at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +2 ms] Found plugin permission_handler_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +2 ms] Found plugin permission_handler_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +2 ms] Found plugin path_provider at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +2 ms] Found plugin path_provider_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[   +7 ms] Found plugin path_provider_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +5 ms] Found plugin path_provider_foundation at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.6.0\
+[  +19 ms] Found plugin path_provider_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[   +3 ms] Found plugin image_picker at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker-1.2.1\
+[   +2 ms] Found plugin image_picker_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_windows-0.2.2\
+[  +10 ms] Found plugin file_selector_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_windows-0.9.3+5\
+[  +34 ms] Found plugin image_picker_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_macos-0.2.2+1\
+[   +2 ms] Found plugin file_selector_macos at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_macos-0.9.5\
+[   +2 ms] Found plugin image_picker_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_linux-0.2.2\
+[   +2 ms] Found plugin file_selector_linux at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\file_selector_linux-0.9.4\
+[   +1 ms] Found plugin image_picker_ios at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_ios-0.8.13+3\
+[   +2 ms] Found plugin image_picker_for_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_for_web-3.1.1\
+[   +4 ms] Found plugin image_picker_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.13+12\
+[   +2 ms] Found plugin flutter_plugin_android_lifecycle at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.33\
+[   +4 ms] Found plugin geolocator at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator-10.1.1\
+[   +3 ms] Found plugin geolocator_windows at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_windows-0.2.5\
+[   +5 ms] Found plugin geolocator_web at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_web-2.2.1\
+[   +2 ms] Found plugin geolocator_apple at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_apple-2.3.13\
+[   +2 ms] Found plugin geolocator_android at C:\Users\basto\AppData\Local\Pub\Cache\hosted\pub.dev\geolocator_android-4.6.2\
+[  +11 ms] Generating C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android\app\src\main\java\io\flutter\plugins\GeneratedPluginRegistrant.java
+[   +3 ms] Skipping generating GeneratedPluginRegistrant.java because it is up-to-date.
+[   +9 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugins.cmake because it is up-to-date.
+[   +4 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugins.cmake because it is up-to-date.
+[   +3 ms] Skipping generating GeneratedPluginRegistrant.h because it is up-to-date.
+[   +3 ms] Skipping generating GeneratedPluginRegistrant.m because it is up-to-date.
+[   +3 ms] Skipping generating GeneratedPluginRegistrant.swift because it is up-to-date.
+[ +152 ms] Top-level Gradle build file not found, skipping migration of task "clean".
+[   +1 ms] Android Studio version could not be detected, skipping Gradle-Java version compatibility check.
+[  +24 ms] CMake project not found, skipping support Android 15 16k page size migration.
+[   +5 ms] Using gradle from C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android\gradlew.bat.
+[  +14 ms] LocalFile: 'C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android\build.gradle.kts' doesn't provide an AGP version. Checking settings.
+[   +2 ms] LocalFile: 'C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android\settings.gradle.kts' provides AGP version: 8.11.1
+[   +8 ms] Running Gradle task 'assembleRelease'...
+[   +1 ms] executing: [C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android/] C:\Users\basto\OneDrive\Documents\IMPORTANT\hackathon\cropdetect\android\gradlew.bat --full-stacktrace --info -Pverbose=true -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib\main.dart -Pbase-application-name=android.app.Application -Pdart-defines=RkxVVFRFUl9WRVJTSU9OPTMuMzguNw==,RkxVVFRFUl9DSEFOTkVMPXN0YWJsZQ==,RkxVVFRFUl9HSVRfVVJMPWh0dHBzOi8vZ2l0aHViLmNvbS9mbHV0dGVyL2ZsdXR0ZXIuZ2l0,RkxVVFRFUl9GUkFNRVdPUktfUkVWSVNJT049M2I2MmVmYzJhMw==,RkxVVFRFUl9FTkdJTkVfUkVWSVNJT049NzhmYzMwMTJlNA==,RkxVVFRFUl9EQVJUX1ZFUlNJT049My4xMC43 -Pdart-obfuscation=false -Ptrack-widget-creation=true -Ptree-shake-icons=true assembleRelease
+[+1380 ms] Initialized native services in: C:\Users\basto\.gradle\native
+[   +1 ms] Initialized jansi services in: C:\Users\basto\.gradle\native
+[ +629 ms] Found daemon DaemonInfo{pid=15968, address=[1bec2c45-907b-4fdc-9211-51b22a96a1c8 port:62800, addresses:[/127.0.0.1]], state=Idle, lastBusy=1769154076276, context=DefaultDaemonContext[uid=863b6197-3fa6-4500-88e1-5b918a5404ec,javaHome=C:\Users\basto\.antigravity\extensions\redhat.java-1.51.0-win32-x64\jre\21.0.9-win32-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\basto\.gradle\daemon,pid=15968,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+[        ] JVM is incompatible.
+[        ] Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot (from org.gradle.java.home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=windows-1252, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+[        ] Actual: DefaultDaemonContext[uid=863b6197-3fa6-4500-88e1-5b918a5404ec,javaHome=C:\Users\basto\.antigravity\extensions\redhat.java-1.51.0-win32-x64\jre\21.0.9-win32-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\basto\.gradle\daemon,pid=15968,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+[        ]   Looking for a different daemon...
+[  +21 ms] FAILURE: Build failed with an exception.
+[   +3 ms] * What went wrong:
+[        ] The supplied javaHome seems to be invalid. I cannot find the java executable. Tried location: C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin\java.exe
+[        ] * Try:
+[        ] > Run with --debug option to get more log output.
+[        ] > Run with --scan to get full insights.
+[        ] > Get more help at https://help.gradle.org.
+[        ] * Exception is:
+[        ] org.gradle.internal.jvm.JavaHomeException: The supplied javaHome seems to be invalid. I cannot find the java executable. Tried location: C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin\java.exe
+[        ] 	at org.gradle.internal.jvm.Jvm.findExecutable(Jvm.java:187)
+[        ] 	at org.gradle.internal.jvm.Jvm.getJavaExecutable(Jvm.java:212)
+[        ] 	at org.gradle.internal.jvm.Jvm.forHome(Jvm.java:115)
+[        ] 	at org.gradle.launcher.daemon.context.DaemonCompatibilitySpec.jvmCompatible(DaemonCompatibilitySpec.java:93)
+[        ] 	at org.gradle.launcher.daemon.context.DaemonCompatibilitySpec.whyUnsatisfied(DaemonCompatibilitySpec.java:43)
+[        ] 	at org.gradle.launcher.daemon.context.DaemonCompatibilitySpec.isSatisfiedBy(DaemonCompatibilitySpec.java:38)
+[        ] 	at org.gradle.launcher.daemon.context.DaemonCompatibilitySpec.isSatisfiedBy(DaemonCompatibilitySpec.java:28)
+[        ] 	at org.gradle.launcher.daemon.client.DefaultDaemonConnector.getCompatibleDaemons(DefaultDaemonConnector.java:189)
+[        ] 	at org.gradle.launcher.daemon.client.DefaultDaemonConnector.connectToIdleDaemon(DefaultDaemonConnector.java:159)
+[        ] 	at org.gradle.launcher.daemon.client.DefaultDaemonConnector.connect(DefaultDaemonConnector.java:127)
+[        ] 	at org.gradle.launcher.daemon.client.DaemonClient.execute(DaemonClient.java:150)
+[        ] 	at org.gradle.launcher.daemon.client.DaemonClient.execute(DaemonClient.java:97)
+[        ] 	at org.gradle.launcher.cli.RunBuildAction.run(RunBuildAction.java:56)
+[        ] 	at org.gradle.internal.Actions$RunnableActionAdapter.execute(Actions.java:167)
+[        ] 	at org.gradle.launcher.cli.DefaultCommandLineActionFactory$ParseAndBuildAction.execute(DefaultCommandLineActionFactory.java:371)
+[        ] 	at org.gradle.launcher.cli.DefaultCommandLineActionFactory$ParseAndBuildAction.execute(DefaultCommandLineActionFactory.java:335)
+[        ] 	at org.gradle.launcher.cli.DebugLoggerWarningAction.execute(DebugLoggerWarningAction.java:74)
+[        ] 	at org.gradle.launcher.cli.DebugLoggerWarningAction.execute(DebugLoggerWarningAction.java:30)
+[        ] 	at org.gradle.launcher.cli.WelcomeMessageAction.execute(WelcomeMessageAction.java:97)
+[        ] 	at org.gradle.launcher.cli.WelcomeMessageAction.execute(WelcomeMessageAction.java:40)
+[        ] 	at org.gradle.launcher.cli.NativeServicesInitializingAction.execute(NativeServicesInitializingAction.java:50)
+[        ] 	at org.gradle.launcher.cli.NativeServicesInitializingAction.execute(NativeServicesInitializingAction.java:27)
+[        ] 	at org.gradle.launcher.cli.ExceptionReportingAction.execute(ExceptionReportingAction.java:41)
+[        ] 	at org.gradle.launcher.cli.ExceptionReportingAction.execute(ExceptionReportingAction.java:26)
+[        ] 	at org.gradle.launcher.cli.DefaultCommandLineActionFactory$WithLogging.execute(DefaultCommandLineActionFactory.java:483)
+[        ] 	at org.gradle.launcher.Main.doAction(Main.java:35)
+[        ] 	at org.gradle.launcher.bootstrap.EntryPoint.run(EntryPoint.java:52)
+[        ] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[        ] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+[        ] 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[        ] 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+[        ] 	at org.gradle.launcher.bootstrap.ProcessBootstrap.runNoExit(ProcessBootstrap.java:72)
+[        ] 	at org.gradle.launcher.bootstrap.ProcessBootstrap.run(ProcessBootstrap.java:39)
+[        ] 	at org.gradle.launcher.GradleMain.main(GradleMain.java:31)
+[        ] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[        ] 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+[        ] 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[        ] 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+[        ] 	at org.gradle.wrapper.BootstrapMainStarter.start(BootstrapMainStarter.java:30)
+[        ] 	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:129)
+[        ] 	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)
+[  +56 ms] Running Gradle task 'assembleRelease'... (completed in 2,105ms)
+[  +40 ms] "flutter apk" took 3,500ms.
+[  +99 ms] Gradle task assembleRelease failed with exit code 1
+[        ] 
+           #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
+           #1      AndroidGradleBuilder.buildGradleApp (package:flutter_tools/src/android/gradle.dart:592:7)
+           <asynchronous suspension>
+           #2      AndroidGradleBuilder.buildApk (package:flutter_tools/src/android/gradle.dart:234:5)
+           <asynchronous suspension>
+           #3      BuildApkCommand.runCommand (package:flutter_tools/src/commands/build_apk.dart:131:5)
+           <asynchronous suspension>
+           #4      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1559:27)
+           <asynchronous suspension>
+           #5      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #6      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+           <asynchronous suspension>
+           #7      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:487:9)
+           <asynchronous suspension>
+           #8      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #9      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:422:5)
+           <asynchronous suspension>
+           #10     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+           <asynchronous suspension>
+           #11     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #12     main (package:flutter_tools/executable.dart:103:3)
+           <asynchronous suspension>
+
+
+[        ] Running 1 shutdown hook
+[   +3 ms] Shutdown hooks complete
+[ +113 ms] exiting with code 1

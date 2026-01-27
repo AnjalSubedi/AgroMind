@@ -1,0 +1,106 @@
+{
+  "model_info": {
+    "name": "KisanAI Rice Disease Detector",
+    "version": "1.0",
+    "architecture": "ResNet50",
+    "framework": "PyTorch",
+    "accuracy": "97.50%",
+    "trained_on": "Paddy Doctor Dataset",
+    "date": "January 2026"
+  },
+  "input_requirements": {
+    "image_size": [
+      224,
+      224
+    ],
+    "channels": 3,
+    "format": "RGB",
+    "preprocessing": {
+      "resize": "Resize to 224x224 pixels",
+      "normalize": {
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ]
+      }
+    }
+  },
+  "classes": [
+    "bacterial_leaf_blight",
+    "bacterial_leaf_streak",
+    "bacterial_panicle_blight",
+    "blast",
+    "brown_spot",
+    "dead_heart",
+    "downy_mildew",
+    "hispa",
+    "normal",
+    "tungro"
+  ],
+  "class_mapping": {
+    "bacterial_leaf_blight": 0,
+    "bacterial_leaf_streak": 1,
+    "bacterial_panicle_blight": 2,
+    "blast": 3,
+    "brown_spot": 4,
+    "dead_heart": 5,
+    "downy_mildew": 6,
+    "hispa": 7,
+    "normal": 8,
+    "tungro": 9
+  },
+  "disease_information": {
+    "bacterial_leaf_blight": {
+      "english": "Bacterial Leaf Blight",
+      "nepali": "ब्याक्टेरियल लिफ ब्लाइट"
+    },
+    "bacterial_leaf_streak": {
+      "english": "Bacterial Leaf Streak",
+      "nepali": "ब्याक्टेरियल लिफ स्ट्रीक"
+    },
+    "bacterial_panicle_blight": {
+      "english": "Bacterial Panicle Blight",
+      "nepali": "ब्याक्टेरियल प्यानिकल ब्लाइट"
+    },
+    "blast": {
+      "english": "Rice Blast",
+      "nepali": "धान ब्लास्ट रोग"
+    },
+    "brown_spot": {
+      "english": "Brown Spot",
+      "nepali": "खैरो दाग रोग"
+    },
+    "dead_heart": {
+      "english": "Dead Heart",
+      "nepali": "डेड हार्ट"
+    },
+    "downy_mildew": {
+      "english": "Downy Mildew",
+      "nepali": "डाउनी मिल्ड्यू"
+    },
+    "hispa": {
+      "english": "Rice Hispa",
+      "nepali": "धान हिस्पा"
+    },
+    "normal": {
+      "english": "Healthy Plant",
+      "nepali": "स्वस्थ बिरुवा"
+    },
+    "tungro": {
+      "english": "Rice Tungro",
+      "nepali": "धान टुंग्रो भाइरस"
+    }
+  },
+  "usage": {
+    "step_1": "Resize image to 224x224",
+    "step_2": "Normalize with mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]",
+    "step_3": "Run inference",
+    "step_4": "Apply softmax for probabilities"
+  }
+}

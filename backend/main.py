@@ -1,0 +1,608 @@
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+import uvicorn
+import cohere
+import pandas as pd
+from deep_translator import GoogleTranslator
+from dotenv import load_dotenv
+import json
+import numpy as np
+import cv2
+import torch
+import torch.nn as nn
+from torchvision import models, transforms
+from torchvision.models import efficientnet_v2_s
+from ultralytics import YOLO
+import yaml
+import os
+import io
+from PIL import Image
+import speech_recognition as sr
+import tempfile
+import shutil
+from pydub import AudioSegment
+
+
+# Load .env from parent directory
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
+
+app = FastAPI(title="Crop Disease Detection API")
+
+# ------------------ SHARED CONFIG ------------------
+MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_PATH = os.path.join(MODEL_DIR, "models")
+
+# Voice/Text Diagnosis Config
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+try:
+    if COHERE_API_KEY:
+        co = cohere.Client(COHERE_API_KEY)
+    else:
+        print("⚠️ WARNING: COHERE_API_KEY not found in .env")
+        co = None
+except Exception as e:
+    print(f"⚠️ Cohere Client Init Error: {e}")
+    co = None
+
+paddy_diseases = None
+
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+# ------------------ TOMATO CONFIG ------------------
+TOMATO_LEAF_MODEL = os.path.join(MODELS_PATH, "best.pt")
+TOMATO_CLS_MODEL  = os.path.join(MODELS_PATH, "resnet18_tomato_best .pth")
+TOMATO_DATA_YAML  = os.path.join(MODELS_PATH, "data.yaml")
+TOMATO_IMG_SIZE   = 224
+TOMATO_CONF_THRES = 0.4
+TOMATO_PAD_RATIO  = 0.2
+
+# ------------------ POTATO CONFIG ------------------
+POTATO_CKPT_PATH = os.path.join(MODELS_PATH, "best_potato_realworld.pth")
+
+# ------------------ RICE CONFIG ------------------
+RICE_MODEL_PATH = os.path.join(MODELS_PATH, "kisanai_rice_complete.pth")
+RICE_IMG_SIZE = 224
+RICE_CLASSES = [
+    "bacterial_leaf_blight",
+    "bacterial_leaf_streak",
+    "bacterial_panicle_blight",
+    "blast",
+    "brown_spot",
+    "dead_heart",
+    "downy_mildew",
+    "hispa",
+    "normal",
+    "tungro"
+]
+
+# Global variables for models
+tomato_detector = None
+tomato_classifier = None
+tomato_class_names = []
+
+potato_model = None
+potato_classes = []
+potato_img_size = 224
+potato_mean = [0.485, 0.456, 0.406]
+potato_std = [0.229, 0.224, 0.225]
+potato_preprocess = None
+
+rice_model = None
+rice_preprocess = None
+
+# ------------------ HEALTH LOGIC ------------------
+
+def load_csv():
+    global paddy_diseases
+    csv_path = os.path.join(MODEL_DIR, "disease_guide.csv")
+    
+    if not os.path.exists(csv_path):
+        print(f"❌ ERROR: CSV file not found at {csv_path}")
+        return False
+
+    try:
+        paddy_diseases = pd.read_csv(csv_path)
+        print(f"✅ Loaded {len(paddy_diseases)} diseases from {csv_path}")
+        return True
+    except Exception as e:
+        print(f"❌ Error loading CSV: {e}")
+        return False
+
+def translate_to_english(text):
+    """Translate any language to English using deep-translator"""
+    try:
+        # Check if text is already in English (simple heuristic)
+        ascii_ratio = sum(1 for c in text if ord(c) < 128) / len(text) if len(text) > 0 else 0
+        
+        if ascii_ratio > 0.9:
+            return text
+        
+        translator = GoogleTranslator(source='auto', target='en')
+        translated_text = translator.translate(text)
+        return translated_text
+    except Exception as e:
+        print(f"❌ Translation error: {e}")
+        return text
+
+def fallback_match(user_text):
+    """Fallback matching if Cohere fails"""
+    if paddy_diseases is None:
+        return []
+    
+    results = []
+    user_text_lower = user_text.lower()
+    
+    for idx, row in paddy_diseases.iterrows():
+        symptoms_lower = str(row.get('symptoms', '')).lower()
+        
+        user_words = set(user_text_lower.split())
+        symptom_words = set(symptoms_lower.split())
+        common_words = user_words.intersection(symptom_words)
+        
+        if len(common_words) > 0:
+            confidence = min(100, len(common_words) * 10)
+            results.append({
+                'disease': str(row.get('disease', '')),
+                'label': str(row.get('label', '')),
+                'confidence': confidence,
+                'symptoms': str(row.get('symptoms', '')),
+                'actions': str(row.get('actions', '')),
+                'prevention': str(row.get('prevention', '')),
+                'when_to_escalate': str(row.get('when_to_escalate', ''))
+            })
+    
+    results.sort(key=lambda x: x['confidence'], reverse=True)
+    return results[:5]
+
+def classify_with_cohere(user_symptoms):
+    """Use Cohere to classify symptoms into top 5 disease labels"""
+    if paddy_diseases is None:
+        return []
+    
+    if not co:
+        print("⚠️ Cohere client unavailable, using fallback")
+        return fallback_match(user_symptoms)
+        
+    try:
+        training_examples = []
+        for idx, row in paddy_diseases.iterrows():
+            training_examples.append({
+                'label': row['label'],
+                'symptoms': row['symptoms']
+            })
+        
+        prompt = "You are an expert agricultural disease classifier. Classify these symptoms into the TOP 5 most likely disease labels based on the training data provided below.\n\n"
+        
+        for example in training_examples:
+            prompt += f"Label: {example['label']}\nSymptoms: {example['symptoms']}\n"
+        
+        prompt += f"\n\nFarmer's Description: \"{user_symptoms}\"\n\n"
+        prompt += "Return ONLY a JSON array with exactly 5 predictions. Format: [{\"label\": \"...\", \"confidence\": 90}, ...]. Sort by confidence descending."
+
+        response = co.chat(
+            model='command-r-08-2024',
+            message=prompt,
+            temperature=0.3
+        )
+        
+        cohere_response = response.text.strip()
+        
+        # Parse JSON
+        try:
+            start_idx = cohere_response.find('[')
+            end_idx = cohere_response.rfind(']') + 1
+            if start_idx != -1 and end_idx > start_idx:
+                json_str = cohere_response[start_idx:end_idx]
+                predictions = json.loads(json_str)
+            else:
+                raise ValueError("No JSON array found")
+        except Exception:
+             print("⚠️ JSON parsing failed, using fallback")
+             return fallback_match(user_symptoms)
+
+        results = []
+        for pred in predictions[:5]:
+            label = pred['label']
+            confidence = pred['confidence']
+            matching_rows = paddy_diseases[paddy_diseases['label'] == label]
+            
+            if not matching_rows.empty:
+                row = matching_rows.iloc[0]
+                results.append({
+                    'disease': str(row['disease']),
+                    'label': str(row['label']),
+                    'confidence': confidence,
+                    'symptoms': str(row['symptoms']),
+                    'actions': str(row['actions']),
+                    'prevention': str(row['prevention']),
+                    'when_to_escalate': str(row['when_to_escalate'])
+                })
+        
+        return results
+
+    except Exception as e:
+        print(f"❌ Cohere error: {e}")
+        return fallback_match(user_symptoms)
+
+# ------------------ LOAD MODELS ------------------
+def load_tomato_models():
+    global tomato_detector, tomato_classifier, tomato_class_names
+    
+    # Load class names
+    if os.path.exists(TOMATO_DATA_YAML):
+        with open(TOMATO_DATA_YAML, "r", encoding="utf-8") as f:
+            tomato_class_names = yaml.safe_load(f)["names"]
+    
+    num_classes = len(tomato_class_names)
+
+    # Load classifier
+    print(f"Loading Tomato Classifier from {TOMATO_CLS_MODEL}...")
+    model = models.resnet18(weights=None)
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    if os.path.exists(TOMATO_CLS_MODEL):
+        model.load_state_dict(torch.load(TOMATO_CLS_MODEL, map_location=DEVICE, weights_only=False))
+        print("Tomato Classifier loaded successfully.")
+    else:
+        print(f"Warning: {TOMATO_CLS_MODEL} not found.")
+
+    tomato_classifier = model.to(DEVICE).eval()
+
+    # Load YOLO leaf detector
+    print(f"Loading Tomato YOLO Detector from {TOMATO_LEAF_MODEL}...")
+    if os.path.exists(TOMATO_LEAF_MODEL):
+        tomato_detector = YOLO(TOMATO_LEAF_MODEL)
+        print("Tomato Detector loaded successfully.")
+    else:
+        print(f"Warning: {TOMATO_LEAF_MODEL} not found.")
+
+def load_potato_models():
+    global potato_model, potato_classes, potato_img_size, potato_mean, potato_std, potato_preprocess
+
+    print(f"Loading Potato Model from {POTATO_CKPT_PATH}...")
+    if not os.path.exists(POTATO_CKPT_PATH):
+        print(f"Warning: {POTATO_CKPT_PATH} not found.")
+        return
+
+    ckpt = torch.load(POTATO_CKPT_PATH, map_location=DEVICE, weights_only=False)
+    potato_classes = ckpt["classes"]
+    potato_img_size = ckpt["img_size"]
+    potato_mean = ckpt["mean"]
+    potato_std = ckpt["std"]
+
+    # Build model
+    def build_model(num_classes: int) -> nn.Module:
+        model = efficientnet_v2_s(weights=None)
+        in_features = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(in_features, num_classes)
+        return model
+
+    model = build_model(len(potato_classes)).to(DEVICE)
+    model.load_state_dict(ckpt["model_state"])
+    potato_model = model.eval()
+    
+    potato_preprocess = transforms.Compose([
+        transforms.Resize((potato_img_size, potato_img_size)),
+        transforms.ToTensor(),
+        transforms.Normalize(potato_mean, potato_std),
+    ])
+    print("Potato Model loaded successfully.")
+
+# Dummy Config class for unpickling Rice model
+class Config:
+    pass
+
+# Inject Config into __main__ namespace so pickle can find it
+import __main__
+setattr(__main__, "Config", Config)
+
+def load_rice_models():
+    global rice_model, rice_preprocess
+    
+    print(f"Loading Rice Model from {RICE_MODEL_PATH}...")
+    if not os.path.exists(RICE_MODEL_PATH):
+        print(f"Warning: {RICE_MODEL_PATH} not found.")
+        return
+
+    # Architecture is ResNet50
+    model = models.resnet50(weights=None)
+    
+    # Reconstruct fc layer to match saved state_dict
+    model.fc = nn.Sequential(
+        nn.Dropout(0.2), 
+        nn.Linear(2048, 512),
+        nn.ReLU(),
+        nn.Dropout(0.2),
+        nn.Linear(512, len(RICE_CLASSES))
+    )
+    
+    try:
+        # Pass weights_only=False because this is a pickle with custom classes (Config)
+        checkpoint = torch.load(RICE_MODEL_PATH, map_location=DEVICE, weights_only=False)
+        
+        state_dict = None
+        if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
+             state_dict = checkpoint["model_state_dict"]
+        elif isinstance(checkpoint, nn.Module):
+             rice_model = checkpoint.to(DEVICE).eval()
+             print("Rice Model loaded successfully (full model).")
+             return
+        else:
+             state_dict = checkpoint
+
+        if state_dict:
+             print("Loading state dict into reconstructed architecture...")
+             model.load_state_dict(state_dict)
+             rice_model = model.to(DEVICE).eval()
+             print("Rice Model loaded successfully.")
+
+    except Exception as e:
+        print(f"Error loading Rice model: {e}")
+        rice_model = None
+
+    rice_preprocess = transforms.Compose([
+        transforms.Resize((RICE_IMG_SIZE, RICE_IMG_SIZE)),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+        ),
+    ])
+
+# Initialize models on startup
+load_tomato_models()
+load_potato_models()
+load_rice_models()
+load_csv()
+
+# ------------------ TOMATO UTILS ------------------
+tomato_val_tfms = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((TOMATO_IMG_SIZE, TOMATO_IMG_SIZE)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225],
+    ),
+])
+
+def crop_largest_leaf(img_bgr):
+    if tomato_detector is None:
+        return None
+        
+    h, w = img_bgr.shape[:2]
+    results = tomato_detector.predict(source=img_bgr, conf=TOMATO_CONF_THRES, iou=0.5, verbose=False)
+    
+    if not results or results[0].boxes is None or len(results[0].boxes) == 0:
+        return None
+        
+    r = results[0]
+    boxes = r.boxes.xyxy.cpu().numpy()
+    areas = (boxes[:,2]-boxes[:,0]) * (boxes[:,3]-boxes[:,1])
+    x1, y1, x2, y2 = boxes[int(np.argmax(areas))]
+
+    bw, bh = (x2-x1), (y2-y1)
+    pad = int(max(bw, bh) * TOMATO_PAD_RATIO)
+
+    x1 = max(0, int(x1 - pad))
+    y1 = max(0, int(y1 - pad))
+    x2 = min(w, int(x2 + pad))
+    y2 = min(h, int(y2 + pad))
+
+    crop = img_bgr[y1:y2, x1:x2]
+    if crop.size == 0:
+        return None
+
+    return crop
+
+# ------------------ ENDPOINTS ------------------
+
+@app.get("/")
+def home():
+    return {
+        "status": "ok", 
+        "models": {
+            "tomato": "active" if tomato_classifier else "inactive",
+            "potato": "active" if potato_model else "inactive",
+            "rice": "active" if rice_model else "inactive"
+        }
+    }
+
+@app.post("/predict/tomato")
+async def predict_tomato(file: UploadFile = File(...)):
+    if not tomato_classifier:
+        return JSONResponse(status_code=503, content={"error": "Tomato model not loaded"})
+
+    data = await file.read()
+    img_arr = np.frombuffer(data, np.uint8)
+    img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+
+    if img is None:
+        return JSONResponse(status_code=400, content={"error": "Invalid image"})
+
+    crop = crop_largest_leaf(img)
+    if crop is None:
+        return JSONResponse(status_code=400, content={"error": "No leaf detected"})
+
+    crop_rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
+    x = tomato_val_tfms(crop_rgb).unsqueeze(0).to(DEVICE)
+
+    with torch.no_grad():
+        logits = tomato_classifier(x)
+        probs = torch.softmax(logits, dim=1)[0]
+        pred = int(torch.argmax(probs).item())
+
+    return {
+        "class": tomato_class_names[pred] if pred < len(tomato_class_names) else str(pred),
+        "confidence": float(probs[pred].item())
+    }
+
+@app.post("/predict/potato")
+async def predict_potato(file: UploadFile = File(...)):
+    if not potato_model:
+         return JSONResponse(status_code=503, content={"error": "Potato model not loaded"})
+
+    # Validate file type quickly - Relaxed for tolerance
+    # if not file.content_type or not file.content_type.startswith("image/"):
+    #     return JSONResponse(status_code=400, content={"error": "Please upload an image file."})
+
+    # Read image bytes
+    image_bytes = await file.read()
+    try:
+        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    except Exception:
+        return JSONResponse(status_code=400, content={"error": "Invalid image format"})
+
+    # Preprocess
+    x = potato_preprocess(img).unsqueeze(0).to(DEVICE)
+
+    # Inference
+    with torch.no_grad():
+        logits = potato_model(x)
+        probs = torch.softmax(logits, dim=1).squeeze(0)
+
+    conf, idx = torch.max(probs, dim=0)
+
+    return {
+        "class": potato_classes[int(idx)],
+        "confidence": float(conf.item()),
+        "probabilities": {potato_classes[i]: float(probs[i].item()) for i in range(len(potato_classes))}
+    }
+
+@app.post("/predict/rice")
+async def predict_rice(file: UploadFile = File(...)):
+    if not rice_model:
+         return JSONResponse(status_code=503, content={"error": "Rice model not loaded"})
+
+    # Read image bytes
+    image_bytes = await file.read()
+    try:
+        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    except Exception:
+        return JSONResponse(status_code=400, content={"error": "Invalid image format"})
+
+    # Preprocess
+    x = rice_preprocess(img).unsqueeze(0).to(DEVICE)
+
+    # Inference
+    with torch.no_grad():
+        logits = rice_model(x)
+        probs = torch.softmax(logits, dim=1).squeeze(0)
+
+    conf, idx = torch.max(probs, dim=0)
+
+    return {
+        "class": RICE_CLASSES[int(idx)],
+        "confidence": float(conf.item()),
+        "probabilities": {RICE_CLASSES[i]: float(probs[i].item()) for i in range(len(RICE_CLASSES))}
+    }
+
+class TextDiagnosisRequest(BaseModel):
+    text: str
+
+@app.post("/diagnose-text")
+async def diagnose_text_endpoint(request: TextDiagnosisRequest):
+    try:
+        original_text = request.text
+        if not original_text:
+             return JSONResponse(status_code=400, content={"error": "No text provided"})
+
+        # Translate
+        english_text = translate_to_english(original_text)
+        
+        # Classify
+        predictions = classify_with_cohere(english_text)
+        
+        return {
+            "success": True,
+            "original_text": original_text,
+            "translated_text": english_text,
+            "predictions": predictions,
+            "total_predictions": len(predictions)
+        }
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"success": False, "error": str(e)})
+
+@app.post("/diagnose-audio")
+async def diagnose_audio_endpoint(file: UploadFile = File(...)):
+    temp_filename = None
+    wav_filename = None
+    try:
+        # Save uploaded file to temp
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1] if file.filename else ".tmp") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            temp_filename = tmp.name
+
+        # Convert to WAV (pydub handles m4a/mp3/aac)
+        # Convert/Normalize to clean WAV (pydub handles this using standard wave module for .wav)
+        try:
+            work_file = temp_filename
+            # Force conversion/normalization to 16kHz mono for best recognition results
+            # This also fixes issues where Android might send a "WAV" that has weird headers or float samples
+            audio = AudioSegment.from_file(temp_filename)
+            wav_filename = temp_filename + "_converted.wav"
+            
+            # Normalize to 16kHz 1 channel (standard for speech recognition)
+            audio = audio.set_frame_rate(16000).set_channels(1)
+            audio.export(wav_filename, format="wav")
+            work_file = wav_filename
+            print(f"✅ Audio normalized: {audio.duration_seconds}s, {audio.channels}ch, {audio.frame_rate}Hz")
+            
+        except Exception as e:
+            print(f"Audio conversion/normalization error: {e}, attempting to use original file. (Note: ffmpeg might be missing if non-wav)")
+            work_file = temp_filename
+
+        # Transcribe with SpeechRecognition
+        print("▶️ Starting Transcription...")
+        r = sr.Recognizer()
+        with sr.AudioFile(work_file) as source:
+            print("   Reading audio file...")
+            audio_data = r.record(source)
+            try:
+                # Uses Google Web Speech API (free, no key required for basic usage)
+                print("   Sending to Google Speech API...")
+                text = r.recognize_google(audio_data)
+                print(f"🎤 Transcribed: {text}")
+            except sr.UnknownValueError:
+                print("❌ Speech Recognition: Unknown Value")
+                return JSONResponse(status_code=400, content={"success": False, "error": "Could not understand audio"})
+            except sr.RequestError as e:
+                print(f"❌ Speech Recognition API Error: {e}")
+                return JSONResponse(status_code=500, content={"success": False, "error": f"Speech API error: {e}"})
+            except Exception as e:
+                print(f"❌ Unexpected Speech Error: {e}")
+                raise e
+
+        # Reuse existing logic
+        print(f"▶️ Translating text: {text}")
+        english_text = translate_to_english(text)
+        print(f"▶️ Translated: {english_text}")
+        
+        print("▶️ Classifying with Cohere...")
+        predictions = classify_with_cohere(english_text)
+        print(f"✅ Classifications: {len(predictions)}")
+        
+        return {
+            "success": True,
+            "transcribed_text": text,
+            "translated_text": english_text,
+            "predictions": predictions,
+            "total_predictions": len(predictions)
+        }
+
+    except Exception as e:
+        print("❌ CRITICAL ERROR IN ENDPOINT ❌")
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"success": False, "error": str(e)})
+    finally:
+        # Cleanup
+        for f in [temp_filename, wav_filename]:
+            if f and os.path.exists(f):
+                try:
+                    os.remove(f)
+                except:
+                    pass
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

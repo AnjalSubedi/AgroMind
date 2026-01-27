@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "514851636890",
+    "project_id": "sajilokheti",
+    "storage_bucket": "sajilokheti.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514851636890:android:ec8d8e44e291348f1c0123",
+        "android_client_info": {
+          "package_name": "com.example.cropdetect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514851636890-jgl40k2cfaqcq9ofid6q9k16e49st0i0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeMS1L03tgbBsPCwrtghsIG0FrfgGYOZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514851636890-jgl40k2cfaqcq9ofid6q9k16e49st0i0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

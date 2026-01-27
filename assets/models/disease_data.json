@@ -1,0 +1,497 @@
+{
+    "tomato": {
+        "Bacterial Spot": {
+            "name": "Bacterial Spot (Xanthomonas spp.)",
+            "description": "Small, water-soaked, circular lesions turning dark brown/black, often with a yellow halo. Fruit shows raised, scabby, dark-brown blisters.",
+            "treatment": [
+                "Apply Copper Oxychloride (1.25 kg/ha) tank-mixed with Mancozeb (1.5–2.0 kg/ha) preventatively.",
+                "Spray on a 7–10 day interval, starting at the first sign of disease or high humidity.",
+                "For transplants, use Streptomycin Sulfate (Agri-mycin) to ensure clean starting material.",
+                "Switch from overhead to drip irrigation to reduce water splash transmission.",
+                "Remove infected lower branches and crop residue to reduce inoculum."
+            ],
+            "citations": [
+                "Managing Tomato Diseases Successfully | Cornell Vegetables - https://www.vegetables.cornell.edu/pest-management/disease-factsheets/managing-tomato-diseases-successfully/"
+            ],
+            "name_ne": "ब्याक्टेरियल स्पट (जीवाणु थोप्ले रोग)",
+            "description_ne": "सानो, पानीले भिजेको जस्तो, गोलाकार घाउहरू जुन गाढा खैरो/कालो हुन्छन्, प्रायः पहेँलो घेरासहित। फलमा उठेको, खस्रो, गाढा खैरो फोका देखिन्छ।",
+            "treatment_ne": [
+                "कपर अक्सिक्लोराइड (१.२५ केजी/हेक्टर) लाई म्यान्कोजेब (१.५–२.० केजी/हेक्टर) सँग मिसाएर छर्नुहोस्।",
+                "रोगको पहिलो लक्षण देखिनेबित्तिकै वा उच्च आर्द्रता हुँदा ७–१० दिनको अन्तरमा विषादी छर्नुहोस्।",
+                "बेर्नाको लागि, सफा सुरुवाती सामग्री सुनिश्चित गर्न स्ट्रेप्टोमाइसिन सल्फेट प्रयोग गर्नुहोस्।",
+                "पानीको थोपाबाट रोग सर्न नदिन माथिबाट पानी हाल्नुको सट्टा थोपा सिँचाइ वा कुलो प्रयोग गर्नुहोस्।",
+                "संक्रमित तल्लो हाँगाहरू र बालीका अवशेषहरू हटाउनुहोस्।"
+            ]
+        },
+        "Early Blight": {
+            "name": "Early Blight (Alternaria solani)",
+            "description": "Brown spots with concentric rings ('bullseye' pattern), often accumulating on lower leaves first. Causes yellowing and defoliation.",
+            "treatment": [
+                "Apply Chlorothalonil 75 WP (0.875–1.25 kg/acre) as a cornerstone protectant.",
+                "Use Azoxystrobin 23 SC (125 g a.i./ha) but alternate with other groups to prevent resistance.",
+                "Remove infected plant debris and practice crop rotation.",
+                "Ensure balanced nutrition; stressed plants are more susceptible."
+            ],
+            "citations": [
+                "Chlorothalonil 75% WP | Peptech Biosciences - https://peptechbio.com/products/chlorothalonil-75-wp/"
+            ],
+            "name_ne": "अगाडिको डढुवा (अर्ली ब्लाइट - गोलभेडा)",
+            "description_ne": "पातमा गोलाकार घेरा भएका खैरा दागहरू ('बुल आई' ढाँचा), जुन प्रायः पुराना पातहरूमा सुरु हुन्छ। यसले पातहरू पहेँलो बनाउँछ र झर्छ।",
+            "treatment_ne": [
+                "क्लोरोथालोनिल ७५ डब्लुपी (०.८७५–१.२५ केजी/एकर) मुख्य सुरक्षात्मक विषादीको रूपमा प्रयोग गर्नुहोस्।",
+                "एजोक्सीस्ट्रोबिन २३ एससी (१२५ ग्राम/हेक्टर) प्रयोग गर्नुहोस् तर प्रतिरोध रोक्न अन्य समूहहरूसँग आलोपालो गर्नुहोस्।",
+                "संक्रमित बोटका अवशेषहरू हटाउनुहोस् र बाली चक्र अपनाउनुहोस्।",
+                "सन्तुलित पोषण सुनिश्चित गर्नुहोस्; कमजोर बोटहरू बढी संवेदनशील हुन्छन्।"
+            ]
+        },
+        "Late Blight": {
+            "name": "Late Blight (Phytophthora infestans)",
+            "description": "Large, irregular, water-soaked, 'greasy' dark lesions on leaves and stems. White fuzzy sporulation may appear on undersides in humid conditions.",
+            "treatment": [
+                "Apply Mancozeb 75 WP (1.5–2.0 kg/ha) or Chlorothalonil as a preventative barrier.",
+                "use Cymoxanil (Curzate) mixed with Mancozeb for 'kick-back' curative action (24-48 hrs post-infection).",
+                "Apply Mandipropamid (Revus) at 5.5–8.0 fl oz/acre targeting cellulose synthase.",
+                "Destroy infected plants immediately; this disease spreads rapidly."
+            ],
+            "citations": [
+                "Potato Late Blight | NC State Extension - https://content.ces.ncsu.edu/potato-late-blight"
+            ],
+            "name_ne": "पछाडिको डढुवा (लेट ब्लाइट)",
+            "description_ne": "पात र डाँठमा ठूला, अनियमित, पानीले भिजेको जस्तो 'चिल्लो' गाढा घाउहरू। ओसिलो अवस्थामा पातको तल्लो भागमा सेतो ढुसी देखा पर्न सक्छ।",
+            "treatment_ne": [
+                "सुरक्षात्मक बाधाको रूपमा म्यान्कोजेब ७५ डब्लुपी (१.५–२.० केजी/हेक्टर) वा क्लोरोथालोनिल प्रयोग गर्नुहोस्।",
+                "संक्रमण भएको २४-४८ घण्टा भित्र उपचारात्मक कार्यको लागि साइमोक्सानिल (कर्जैट) लाई म्यान्कोजेब सँग मिसाएर प्रयोग गर्नुहोस्।",
+                "म्यान्डिप्रोपामिड (रेभस) ५.५–८.० फ्लुइड आउन्स/एकर प्रयोग गर्नुहोस्।",
+                "संक्रमित बोटहरू तुरुन्तै नष्ट गर्नुहोस्; यो रोग छिटो फैलिन्छ।"
+            ]
+        },
+        "Leaf Mold": {
+            "name": "Leaf Mold (Passalora fulva)",
+            "description": "Pale yellow spots on upper leaves with velvety, olive-green fungal growth on the underside. Common in high humidity (>85%).",
+            "treatment": [
+                "Modify microclimate: Prune to increase airflow and space plants to reduce humidity.",
+                "Apply protectants like Mancozeb and Chlorothalonil preventatively.",
+                "Use specific fungicides like Pyrimethanil (Scala) or Fenhexamid (Decree) in protected cultures.",
+                "Ventilate greenhouses effectively."
+            ],
+            "citations": [
+                "Tomato Diseases & Disorders | Clemson HGIC - https://hgic.clemson.edu/factsheet/tomato-diseases-disorders/"
+            ],
+            "name_ne": "लिफ मोल्ड (पातमा लाग्ने ढुसी)",
+            "description_ne": "पातको माथिल्लो सतहमा फिक्का पहेँलो दागहरू र तल्लो सतहमा मखमली, जैतुन-हरियो ढुसीको विकास। उच्च आर्द्रता (>८५%) मा धेरै देखिन्छ।",
+            "treatment_ne": [
+                "सूक्ष्म-मौसम परिवर्तन गर्नुहोस्: हावाको प्रवाह बढाउन काँटछाँट गर्नुहोस् र आर्द्रता कम गर्न बोटहरू बीचको दूरी बढाउनुहोस्।",
+                "म्यान्कोजेब र क्लोरोथालोनिल जस्ता सुरक्षात्मक विषादीहरू प्रयोग गर्नुहोस्।",
+                "संरक्षित खेतीमा पाइरिमेथानिल (स्काला) वा फेनहेक्सामाइड (डिक्री) जस्ता विशिष्ट फङ्गिसाइडहरू प्रयोग गर्नुहोस्।",
+                "ग्रीनहाउसहरू प्रभावकारी रूपमा भेन्टिलेट गर्नुहोस्।"
+            ]
+        },
+        "Leaf_Miner": {
+            "name": "Leaf Miner (Liriomyza spp.)",
+            "description": "Larvae tunnel between leaf surfaces creating serpentine white mines. Destroys photosynthetic tissue.",
+            "treatment": [
+                "Apply Abamectin 1.9 EC (150 ml/acre or 0.75 ml/liter) for translaminar control.",
+                "Use Spinosad (Entrust) at 6–10 fl oz/acre.",
+                "Introduce or protect beneficial parasitoids.",
+                "Remove heavily mined leaves."
+            ],
+            "citations": [
+                "Katyayani KACIN ( abamectin 1.9% EC ) - https://www.khethari.com/products/katyayani-kacin-abamectin-1-9-ec-insecticide"
+            ],
+            "name_ne": "लिफ माइनर (पात खन्ने कीरा)",
+            "description_ne": "लार्भाले पातको सतहहरू बीच सुरुङ बनाउँछ जसले सर्पजस्तो सेतो धर्काहरू सिर्जना गर्दछ। यसले प्रकाश संश्लेषण गर्ने तन्तुहरू नष्ट गर्छ।",
+            "treatment_ne": [
+                "अबामेक्टिन १.९ ईसी (१५० मिलि/एकर वा ०.७५ मिलि/लिटर) प्रयोग गर्नुहोस्।",
+                "स्पिनोसाड (इन्ट्रस्ट) ६–१० फ्लुइड आउन्स/एकर प्रयोग गर्नुहोस्।",
+                "मित्र कीराहरूको संरक्षण वा प्रयोग गर्नुहोस्।",
+                "धेरै सुरुङ बनाइएका पातहरू हटाउनुहोस्।"
+            ]
+        },
+        "Mosaic Virus": {
+            "name": "Tomato/Tobacco Mosaic Virus",
+            "description": "Light and dark green mottling (mosaic) of leaves, fern-like distortion, stunning, and uneven fruit ripening (Internal Browning).",
+            "treatment": [
+                "There is no cure; emphasis is on prevention and sanitation.",
+                "Milk Protocol: Spray transplants with 20% non-fat dry milk solution; dip hands/tools in it to block virus binding.",
+                "Smokers must wash hands before handling plants (virus survives in tobacco).",
+                "Remove and destroy infected plants immediately."
+            ],
+            "citations": [
+                "Tobacco Mosaic Virus of Tomato and Pepper - https://www.missouribotanicalgarden.org/gardens-gardening/your-garden/help-for-the-home-gardener/advice-tips-resources/insects-pests-and-problems/diseases/viruses/tobacco-mosaic-virus"
+            ],
+            "name_ne": "टोम्याटो/टोब्याको मोजाइक भाइरस",
+            "description_ne": "पातहरूमा हल्का र गाढा हरियो धब्बा (मोजाइक), उन्यू जस्तो बन्ने, बोटको विकास रोकिने र फल असमान रूपमा पाक्ने (भित्र खैरो हुने)।",
+            "treatment_ne": [
+                "यसको कुनै उपचार छैन; रोकथाम र सरसफाईमा जोड दिनुहोस्।",
+                "दूध प्रोटोकल: बेर्नालाई २०% नन-फ्याट सुख्खा दूधको घोलले छर्कनुहोस्; भाइरस फैलिन नदिन हात/उपकरणहरू यसमा डुबाउनुहोस्।",
+                "धुम्रपान गर्नेहरूले बिरुवा छुनु अघि साबुन पानीले हात धुनुपर्छ (भाइरस सुर्तीमा बाँच्न सक्छ)।",
+                "संक्रमित बोटहरू तुरुन्तै हटाउनुहोस् र नष्ट गर्नुहोस्।"
+            ]
+        },
+        "Septoria": {
+            "name": "Septoria Leaf Spot",
+            "description": "Numerous small (1-3mm) circular spots with dark borders and tan/gray centers. Contains tiny black specks (pycnidia).",
+            "treatment": [
+                "Apply Chlorothalonil (0.875–1.25 kg/acre) which is highly effective.",
+                "Use Mancozeb (1.5–2.0 kg/ha) as an alternative.",
+                "Remove weed hosts (like horse nettle) and infected crop debris.",
+                "Avoid overhead irrigation."
+            ],
+            "citations": [
+                "Managing Tomato Diseases Successfully | Cornell Vegetables - https://www.vegetables.cornell.edu/pest-management/disease-factsheets/managing-tomato-diseases-successfully/"
+            ],
+            "name_ne": "सेप्टोरिया लिफ स्पट (पातको थोप्ले रोग)",
+            "description_ne": "धेरै साना (१-३ मिमी) गोलाकार दागहरू जसको घेरा गाढा र केन्द्र खैरो हुन्छ। यसमा साना काला थोप्लाहरू (पिक्निडिया) हुन्छन्।",
+            "treatment_ne": [
+                "क्लोरोथालोनिल (०.८७५–१.२५ केजी/एकर) प्रयोग गर्नुहोस् जुन धेरै प्रभावकारी छ।",
+                "वैकल्पिक रूपमा म्यान्कोजेब (१.५–२.० केजी/हेक्टर) प्रयोग गर्नुहोस्।",
+                "झारपात (जस्तै कन्टेकरी) र संक्रमित बालीका अवशेषहरू हटाउनुहोस्।",
+                "माथिबाट सिँचाइ गर्न बच्नुहोस्।"
+            ]
+        },
+        "Spider Mites": {
+            "name": "Spider Mites (Tetranychus spp.)",
+            "description": "Tiny yellow dots ('stippling') on leaves caused by piercing-sucking feeding. Heavy infestation leads to webbing and bronzing.",
+            "treatment": [
+                "Apply Abamectin (1.75–3.5 fl oz/acre) as an effective acaricide.",
+                "Use Spiromesifen (Oberon 2SC) at 8.5 fl oz/acre (lipid biosynthesis inhibitor).",
+                "Apply Neem Oil/Azadirachtin for organic control and repellency.",
+                "Ensure adequate watering to reduce plant stress."
+            ],
+            "citations": [
+                "Tomato-Spider mite | Pacific Northwest Pest Management Handbooks - https://pnwhandbooks.org/insect/vegetable/vegetable-pests/hosts-pests/tomato-spider-mite"
+            ],
+            "name_ne": "स्पाइडर माइट्स (रातो माकुरा)",
+            "description_ne": "कीराले रस चुस्दा पातहरूमा साना पहेँलो थोप्लाहरू देखिन्छन्। धेरै संक्रमण भएमा जालो र पातहरू कास्य रङको हुन्छ।",
+            "treatment_ne": [
+                "प्रभावकारी नियन्त्रणका लागि अबामेक्टिन (१.७५–३.५ फ्लुइड आउन्स/एकर) प्रयोग गर्नुहोस्।",
+                "स्पाइरोमेसिफेन (ओबेरोन २एससी) ८.५ फ्लुइड आउन्स/एकर प्रयोग गर्नुहोस्।",
+                "जैविक नियन्त्रणको लागि निमको तेल/अजाडिराक्टिन प्रयोग गर्नुहोस्।",
+                "बोटमा तनाव कम गर्न पर्याप्त सिँचाइ सुनिश्चित गर्नुहोस्।"
+            ]
+        },
+        "Yellow Leaf Curl Virus": {
+            "name": "Tomato Yellow Leaf Curl Virus (TYLCV)",
+            "description": "Severe stunting, erect shoots, and small leaves curling upward with yellow margins. Caused by Begomovirus transmitted by Whiteflies.",
+            "treatment": [
+                "Control vector (Silverleaf Whitefly) with Imidacloprid (100 ml/acre) or Thiamethoxam.",
+                "Use virus-resistant tomato varieties.",
+                "Bag and remove infected plants ('rogues') immediately.",
+                "Apply foliar nutrients (Zinc, Boron) to reduce stress, though this does not cure the virus."
+            ],
+            "citations": [
+                "New Insecticides for Management of Tomato Yellow Leaf Curl - https://pmc.ncbi.nlm.nih.gov/articles/PMC4684678/"
+            ],
+            "name_ne": "गोलभेडाको पहेँलो पात मुडिने भाइरस (TYLCV)",
+            "description_ne": "बोटको वृद्धि रोकिने, हाँगाहरू ठाडो हुने, र पहेँलो घेरासहित साना पातहरू माथितिर मुडिने। यो सेतो झिँगाद्वारा सर्ने बेगोमोभाइरसले गर्दा हुन्छ।",
+            "treatment_ne": [
+                "वाहक (सेतो झिँगा) नियन्त्रण गर्न इमिडाक्लोप्रिड (१०० मिलि/एकर) वा थियामेथोक्साम प्रयोग गर्नुहोस्।",
+                "भाइरस प्रतिरोधी गोलभेडाका जातहरू लगाउनुहोस्।",
+                "संक्रमित बोटहरूलाई झोलामा राखेर तुरुन्तै हटाउनुहोस्।",
+                "तनाव कम गर्न जिंक र बोरोन जस्ता सूक्ष्म तत्वहरू छर्कनुहोस् (यसले भाइरस निको पार्दैन तर बोटलाई बलियो बनाउँछ)।"
+            ]
+        },
+        "Healthy": {
+            "name": "Healthy Tomato",
+            "description": "The plant appears vibrant and free of lesions, mottling, or visible pests.",
+            "treatment": [
+                "Apply Calcium Nitrate (4.0–5.0 g/L) foliar spray 2-3 times starting at flowering to harden cell walls.",
+                "Apply Magnesium Sulphate (5–10 g/L) every 2 weeks to maximize photosynthesis.",
+                "Maintain regular scouting for early pest/disease detection.",
+                "Ensure proper staking and pruning for airflow."
+            ],
+            "citations": [
+                "Applying Calcium Nitrate For Tomato Blossom End Rot - https://www.gardeningknowhow.com/garden-how-to/soil-fertilizers/applying-calcium-nitrate-for-ber.htm",
+                "MAGNESIUM - Incitec Pivot Fertilisers - https://www.incitecpivotfertilisers.com.au/"
+            ],
+            "name_ne": "स्वस्थ गोलभेडा",
+            "description_ne": "बोट स्वस्थ र जीवन्त देखिन्छ। कुनै दाग, रोग वा कीराको लक्षण छैन।",
+            "treatment_ne": [
+                "कोषिका भित्ता बलियो बनाउन फूल फुल्ने समयमा २-३ पटक क्याल्सियम नाइट्रेट (४.०–५.० ग्राम/लिटर) छर्नुहोस्।",
+                "प्रकाश संश्लेषण बढाउन हरेक २ हप्तामा म्याग्नेसियम सल्फेट (५–१० ग्राम/लिटर) प्रयोग गर्नुहोस्।",
+                "कीरा र रोगको लक्षणहरूको लागि नियमित निरीक्षण गर्नुहोस्।",
+                "हावाको प्रवाह राम्रो बनाउन बोटलाई सहारा दिनुहोस् र काँटछाँट गर्नुहोस्।"
+            ]
+        }
+    },
+    "potato": {
+        "Potato___Early_blight": {
+            "name": "Early Blight (Alternaria solani)",
+            "description": "Dark brown spots with concentric rings on older leaves. Dry lesions delimited by veins. Causes premature senescence.",
+            "treatment": [
+                "Use Azoxystrobin (500 ml/ha) strictly managing resistance (max 2 sequential sprays).",
+                "Apply SDHI fungicides like Boscalid or Fluopyram (Luna Tranquility at 8–11 fl oz/acre).",
+                "Maintain protection with Mancozeb or Chlorothalonil.",
+                "Harvest when vines are fully dead to reduce tuber infection risk."
+            ],
+            "citations": [
+                "2018 Montana Seed Potato Disease Management Guide - https://msuextension.org/pspp/documents/2018PotatoGuideV1.pdf",
+                "Fungicide Schedule for Potatoes - University of Maine - https://extension.umaine.edu/potatoes/resource/fungicide-schedule-for-potatoes-2024/"
+            ],
+            "name_ne": "आलुको अगाडिको डढुवा (अर्ली ब्लाइट)",
+            "description_ne": "पुराना पातहरूमा गोलाकार घेरा भएका गाढा खैरो दागहरू ('बुल आई' ढाँचा)। यसले पातहरू पहेँलो बनाउँछ र झर्छ।",
+            "treatment_ne": [
+                "एजोक्सीस्ट्रोबिन (५०० मिलि/हेक्टर) प्रयोग गर्नुहोस् (प्रतिरोध व्यवस्थापनका लागि अधिकतम २ पटक)।",
+                "बोसकालिड वा फ्लुओपाइरम जस्ता SDHI फङ्गिसाइडहरू प्रयोग गर्नुहोस्।",
+                "म्यान्कोजेब वा क्लोरोथालोनिलको साथ सुरक्षा कायम राख्नुहोस्।",
+                "आलुमा संक्रमणको जोखिम कम गर्न बोट मरेपछि मात्र बाली भित्र्याउनुहोस्।"
+            ]
+        },
+        "Potato___Late_blight": {
+            "name": "Late Blight (Phytophthora infestans)",
+            "description": "Rapid dark lesions on leaves/stems; infected tubers show reddish-brown granular rot. Critical threat.",
+            "treatment": [
+                "Apply Mancozeb (1.5–2.0 kg/ha) or Chlorothalonil as base protectants.",
+                "Use Cymoxanil (Curzate) tank-mixed with Mancozeb for curative action.",
+                "Apply Propamocarb (Previcur Flex) or Mandipropamid (Revus Top) for strong anti-sporulant activity.",
+                "Monitor Disease Severity Values (DSVs) to time sprays.",
+                "Destroy cull piles to remove overwintering sources."
+            ],
+            "citations": [
+                "Late blight of tomato and potato | UMN Extension - https://extension.umn.edu/disease-management/late-blight"
+            ],
+            "name_ne": "आलुको पछाडिको डढुवा (लेट ब्लाइट)",
+            "description_ne": "पात र डाँठमा छिटो फैलिने गाढा घाउहरू; संक्रमित आलुमा रातो-खैरो सड्ने समस्या। यो धेरै खतरनाक रोग हो।",
+            "treatment_ne": [
+                "सुरक्षात्मक रूपमा म्यान्कोजेब (१.५–२.० केजी/हेक्टर) वा क्लोरोथालोनिल प्रयोग गर्नुहोस्।",
+                "उपचारात्मक कार्यको लागि साइमोक्सानिल (कर्जैट) लाई म्यान्कोजेब सँग मिसाएर प्रयोग गर्नुहोस्।",
+                "प्रोपामोकार्ब (प्रिभिकुर फ्लेक्स) वा म्यान्डिप्रोपामिड (रेभस टप) प्रयोग गर्नुहोस्।",
+                "विषादी छर्ने समय मिलाउन रोगको गम्भीरता मान (DSVs) निगरानी गर्नुहोस्।",
+                "रोगका स्रोतहरू हटाउन संक्रमित थुप्राहरू नष्ट गर्नुहोस्।"
+            ]
+        },
+        "Potato___healthy": {
+            "name": "Healthy Potato",
+            "description": "Foliage is green and vigorous. No signs of blight or chlorosis.",
+            "treatment": [
+                "Apply Calcium Nitrate (1.5–2.0 kg/100 ft row) at hilling to improve tuber skin finish.",
+                "Foliar spray Magnesium Sulphate (1 kg/100L) twice in the first 30 days post-emergence.",
+                "Maintain consistent soil moisture to prevent scab and cracking.",
+                "Monitor for Colorado Potato Beetles."
+            ],
+            "citations": [
+                "Fungicide Schedule for Potatoes - University of Maine - https://extension.umaine.edu/potatoes/resource/fungicide-schedule-for-potatoes-2024/"
+            ],
+            "name_ne": "स्वस्थ आलु",
+            "description_ne": "पातहरू हरियो र स्वस्थ छन्। डढुवा वा पहेँलोपनको कुनै लक्षण छैन।",
+            "treatment_ne": [
+                "आलुको छाला राम्रो बनाउन उकेरा दिने समयमा क्याल्सियम नाइट्रेट (१.५–२.० केजी/१०० फिट लाइन) प्रयोग गर्नुहोस्।",
+                "उम्रेको पहिलो ३० दिनभित्र दुई पटक म्याग्नेसियम सल्फेट (१ केजी/१०० लिटर) छर्नुहोस्।",
+                "लुतो र फुट्ने समस्या रोक्न माटोमा चिस्यान कायम राख्नुहोस्।",
+                "आलुको खपटे कीरा (कोलोराडो विटल) को निगरानी गर्नुहोस्।"
+            ]
+        }
+    },
+    "rice": {
+        "bacterial_leaf_blight": {
+            "name": "Bacterial Leaf Blight (Xanthomonas oryzae)",
+            "description": "Lesions start at leaf tip, enlarging down margins, turning yellow-white with wavy edges. 'Kresek' (wilting) in seedlings.",
+            "treatment": [
+                "Apply Streptomycin Sulphate + Tetracycline (300 g/ha) mixed with Copper Oxychloride (1.25 kg/ha).",
+                "Spray at first appearance of streaks and repeat after 15 days.",
+                "Use Cow Dung Extract spray (20g/L) to introduce competing microflora (Indigenous method).",
+                "Avoid potentially excess Nitrogen fertilization."
+            ],
+            "citations": [
+                "Bacterial leaf blight - TNAU Agritech Portal - http://www.agritech.tnau.ac.in/expert_system/paddy/cpdisblb.html"
+            ],
+            "name_ne": "ब्याक्टेरियल लिफ ब्लाइट (पात डढुवा)",
+            "description_ne": "पातको टुप्पोबाट सुरु भएर किनारतिर फैलिने, पहेँलो-सेतो र लहरदार किनार भएका घाउहरू। बेर्नामा 'क्रेसेक' (ओइलाउने) समस्या देखिन्छ।",
+            "treatment_ne": [
+                "स्ट्रेप्टोमाइसिन सल्फेट + टेट्रासाइक्लिन (३०० ग्राम/हेक्टर) लाई कपर अक्सिक्लोराइड (१.२५ केजी/हेक्टर) सँग मिसाएर छर्नुहोस्।",
+                "पहिलो लक्षण देखिनेबित्तिकै र १५ दिनपछि पुनः छर्नुहोस्।",
+                "गाईको गोबरको अर्को (२० ग्राम/लिटर) छर्न सकिन्छ (जैविक विधि)।",
+                "धेरै नाइट्रोजन मल (युरिया) प्रयोग गर्नबाट बच्नुहोस्।"
+            ]
+        },
+        "bacterial_leaf_streak": {
+            "name": "Bacterial Leaf Streak",
+            "description": "Fine, translucent, water-soaked streaks between leaf veins, eventually turning brown.",
+            "treatment": [
+                "Chemical control identical to BLB: Streptomycin + Copper combination.",
+                "Clip seedling tips before transplanting to remove bacterial entry points.",
+                "Avoid leaf damage during handling.",
+                "Keep fields clean of weed hosts."
+            ],
+            "citations": [
+                "Bacterial Leaf Streak - TNAU Agritech Portal - https://agritech.tnau.ac.in/crop_protection/rice_diseases/rice_8.html"
+            ],
+            "name_ne": "ब्याक्टेरियल लिफ स्ट्रिक (जिवाणुले रातो धर्का पार्ने रोग)",
+            "description_ne": "पातका नसाहरू बीचमा मसिना, पारदर्शी, पानीले भिजेको जस्तो धर्काहरू, जुन पछि खैरो हुन्छन्।",
+            "treatment_ne": [
+                "रासायनिक नियन्त्रण पात डढुवा जस्तै: स्ट्रेप्टोमाइसिन + कपरको मिश्रण।",
+                "जीवाणु प्रवेश रोक्न रोप्नु अघि बेर्नाको टुप्पो काट्नुहोस्।",
+                "काम गर्दा पातमा चोट पुर्याउनबाट बच्नुहोस्।",
+                "खेतलाई झारपात मुक्त राख्नुहोस्।"
+            ]
+        },
+        "bacterial_panicle_blight": {
+            "name": "Bacterial Panicle Blight (Burkholderia glumae)",
+            "description": "Panicles emerge upright (sterile) with green rachis but gray/brown florets. Often misdiagnosed as heat stress.",
+            "treatment": [
+                "Seed Treatment: Bleaching Powder (100g/L) and Zinc Sulfate (2%).",
+                "Apply Copper Hydroxide (1.25 kg/ha) at booting stage.",
+                "Use pathogen-free certified seeds.",
+                "Destroy infected crop residues."
+            ],
+            "citations": [
+                "Bacterial leaf blight - TNAU Agritech Portal - http://www.agritech.tnau.ac.in/expert_system/paddy/cpdisblb.html"
+            ],
+            "name_ne": "ब्याक्टेरियल प्यानिकल ब्लाइट (बाला डढुवा)",
+            "description_ne": "बालाहरू ठाडो (बाँझो) निस्कन्छन्, डाँठ हरियो हुन्छ तर दानाहरू खैरो हुन्छन्। प्रायः यसलाई गर्मीको तनाव भनेर गलत निदान गरिन्छ।",
+            "treatment_ne": [
+                "बीउ उपचार: ब्लिचिङ पाउडर (१०० ग्राम/लिटर पानी) र जिंक सल्फेट (२%)।",
+                "गाभो निस्कने अवस्थामा कपर हाइड्रोक्साइड (१.२५ केजी/हेक्टर) प्रयोग गर्नुहोस्।",
+                "रोगमुक्त प्रमाणित बीउ प्रयोग गर्नुहोस्।",
+                "संक्रमित बालीका अवशेषहरू नष्ट गर्नुहोस्।"
+            ]
+        },
+        "blast": {
+            "name": "Rice Blast (Magnaporthe oryzae)",
+            "description": "Spindle-shaped lesions with white/gray centers and reddish-brown borders. Can cause Neck Blast (100% loss).",
+            "treatment": [
+                "Apply Tricyclazole 75 WP (500 g/ha) - the gold standard systemic fungicide.",
+                "Use Azoxystrobin 25 SC (500 ml/ha) or Mancozeb 75 WP (1.5–2.0 kg/ha).",
+                "Apply at booting/heading stages mainly for neck blast prevention.",
+                "Maintain proper water depth."
+            ],
+            "citations": [
+                "CENTRE FOR PLANT PROTECTION STUDIES PEST FORECAST - http://www.agritech.tnau.ac.in/crop_protection/pdf/2024/04.%20Pest%20Forecast%20Report%20october%202024.pdf"
+            ],
+            "name_ne": "धानको सेतो रोग (राइस ब्लास्ट)",
+            "description_ne": "पातमा सेतो/खैरो केन्द्र र रातो-खैरो घेरा भएका लाम्चो आकारका दागहरू। यसले नेक ब्लास्ट (घाँटी मरुवा) निम्त्याउन सक्छ जसले १००% क्षति गराउँछ।",
+            "treatment_ne": [
+                "ट्राइसाइक्लाजोल ७५ डब्लुपी (५०० ग्राम/हेक्टर) प्रयोग गर्नुहोस् - यो सबैभन्दा प्रभावकारी ढुसीनाशक हो।",
+                "एजोक्सीस्ट्रोबिन २५ एससी (५०० मिलि/हेक्टर) वा म्यान्कोजेब ७५ डब्लुपी (१.५–२.० केजी/हेक्टर) प्रयोग गर्नुहोस्।",
+                "घाँटी मरुवा रोकथामका लागि मुख्यतया बोट पसाउने अवस्थामा विषादी छर्नुहोस्।",
+                "खेतमा पानीको सतह उचित कायम राख्नुहोस्।"
+            ]
+        },
+        "brown_spot": {
+            "name": "Brown Spot (Bipolaris oryzae)",
+            "description": "Round/oval brown spots with gray center and yellow halo. Indicator of poor soil fertility (Si, Mn, K).",
+            "treatment": [
+                "Correction of nutrition is Primary Therapy: Manganese Sulfate foliar spray (1–5 kg Mn/ha).",
+                "Apply Mancozeb spray (2.0 g/L) or Propiconazole (500 ml/ha).",
+                "Use certified disease-free seeds.",
+                "Improve soil fertility with Potassium and Silicon."
+            ],
+            "citations": [
+                "Brown spot incidence... TNAU Agritech Portal - https://agritech.tnau.ac.in/crop_protection/pdf/2016/pdsr_aug2016_eng.pdf"
+            ],
+            "name_ne": "खैरो थोप्ले रोग (ब्राउन स्पट)",
+            "description_ne": "गोलाकार वा अण्डाकार खैरो दागहरू जसको बीचमा खरानी र घेरा पहेँलो हुन्छ। यो कम उर्वर माटोको संकेत हो।",
+            "treatment_ne": [
+                "पोषण सुधार मुख्य उपचार हो: म्याग्नेसियम सल्फेट (१–५ केजी/हेक्टर) छर्नुहोस्।",
+                "म्यान्कोजेब स्प्रे (२.० ग्राम/लिटर) वा प्रोपिकोनाजोल (५०० मिलि/हेक्टर) प्रयोग गर्नुहोस्।",
+                "प्रमाणित रोगमुक्त बीउ प्रयोग गर्नुहोस्।",
+                "पोटासियम र सिलिकन प्रयोग गरेर माटोको उर्वराशक्ति बढाउनुहोस्।"
+            ]
+        },
+        "dead_heart": {
+            "name": "Stem Borer (Dead Heart/White Ear)",
+            "description": "Vegetative stage: Central shoot dies ('Dead Heart'). Reproductive stage: Empty white panicle ('White Ear').",
+            "treatment": [
+                "Apply Cartap Hydrochloride 50 SP (400 g/acre foliar) or Granules 4G (7.5–10 kg/acre).",
+                "Use Flubendiamide 39.35 SC (50 ml/ha).",
+                "Install light traps to monitor moth activity.",
+                "Clip seedling tips before transplanting."
+            ],
+            "citations": [
+                "Bayer Fame - Flubendiamide 480SC - https://highyieldsagro.com/product/bayer-fame/"
+            ],
+            "name_ne": "गबारो (ड्रेड हर्ट / सेतो बाला)",
+            "description_ne": "बढ्ने अवस्थामा: मुख्य गुभो मर्छ ('डेड हर्ट')। पाक्ने अवस्थामा: भुस मात्र भएको सेतो बाला ('ह्वाइट इयर')।",
+            "treatment_ne": [
+                "कार्टाप हाइड्रोक्लोराइड ५० एसपी (४०० ग्राम/एकर) वा दानादार ४जी (७.५–१० केजी/एकर) प्रयोग गर्नुहोस्।",
+                "फ्लुबेन्डामाइड ३९.३५ एससी (५० मिलि/हेक्टर) प्रयोग गर्नुहोस्।",
+                "पुतलीको निगरानी गर्न बत्तीको पासो (लाइट ट्र्याप) राख्नुहोस्।",
+                "रोप्नु अघि बेर्नाको टुप्पो काट्नुहोस्।"
+            ]
+        },
+        "downy_mildew": {
+            "name": "Downy Mildew (Oomycete)",
+            "description": "Leaves turn yellow and twisted; panicles distorted. Associated with waterlogged areas.",
+            "treatment": [
+                "Seed Treatment: Metalaxyl 35 WS (0.75–1.0 g per 100 kg seed).",
+                "Foliar: Spray Mancozeb (2.0–2.5 g/L) or Chlorothalonil + Metalaxyl (Folio Gold) at 1.5–2.0 ml/L.",
+                "Improve drainage to reduce waterlogging.",
+                "Remove and burn infected plant parts."
+            ],
+            "citations": [
+                "Fungicides - Protect Your Plants - https://agriplexindia.com/collections/fungicides-for-plants"
+            ],
+            "name_ne": "डाउनी मिल्ड्यू",
+            "description_ne": "पातहरू पहेँलो र बटारिएको हुन्छ; बालाहरू विरूप हुन्छन्। पानी जमेको क्षेत्रसँग सम्बन्धित।",
+            "treatment_ne": [
+                "बीउ उपचार: मेटालेक्सिल ३५ डब्लुएस (०.७५–१.० ग्राम प्रति १०० केजी बीउ)।",
+                "स्प्रे: म्यान्कोजेब (२.०–२.५ ग्राम/लिटर) वा क्लोरोथालोनिल + मेटालेक्सिल (१.५–२.० मिलि/लिटर) छर्नुहोस्।",
+                "पानी जम्न नदिन निकास सुधार गर्नुहोस्।",
+                "संक्रमित बोटका भागहरू हटाउनुहोस् र जलाउनुहोस्।"
+            ]
+        },
+        "hispa": {
+            "name": "Rice Hispa",
+            "description": "Adults scrape leaf surfaces leaving white streaks; larvae mine leaves creating blister patches.",
+            "treatment": [
+                "Apply Quinalphos 25 EC (1000 ml/ha).",
+                "Use Chlorpyriphos 20 EC (1250 ml/ha) if infestation is high.",
+                "Clip leaf tips of seedlings before transplanting.",
+                "Mechanical removal with insect nets."
+            ],
+            "citations": [
+                "Brown spot incidence... TNAU Agritech Portal - https://agritech.tnau.ac.in/crop_protection/pdf/2016/pdsr_aug2016_eng.pdf"
+            ],
+            "name_ne": "राइस हिस्पा (काँडे कीरा)",
+            "description_ne": "वयस्क कीराले पातको सतह कोर्छन् जसले सेतो धर्का छोड्छ; लार्भाले पात भित्र सुरुङ बनाउँछन्।",
+            "treatment_ne": [
+                "विषादी: क्विनालफोस २५ ईसी (१००० मिलि/हेक्टर) प्रयोग गर्नुहोस्।",
+                "संक्रमण धेरै भएमा क्लोरपाइरिफोस २० ईसी (१२५० मिलि/हेक्टर) प्रयोग गर्नुहोस्।",
+                "रोप्नु अघि बेर्नाको टुप्पो काट्नुहोस्।",
+                "जाली प्रयोग गरेर कीरा हटाउनुहोस्।"
+            ]
+        },
+        "normal": {
+            "name": "Healthy Rice",
+            "description": "Plant is green, vigorous, and free of lesions or discoloration.",
+            "treatment": [
+                "Implement Integrated Nutrient Management (INM).",
+                "Monitor regularly for early signs of fungal or bacterial issues.",
+                "Keep water levels optimized for the growth stage.",
+                "Maintain bunds weed-free to reduce pest hosts."
+            ],
+            "citations": [
+                "Nutrient Management - TNAU Agritech Portal - http://www.agritech.tnau.ac.in/expert_system/paddy/nutrientmanagement.html"
+            ],
+            "name_ne": "स्वस्थ धान",
+            "description_ne": "बिरुवा हरियो, बलियो र कुनै पनि दाग वा रङ परिवर्तनबाट मुक्त छ।",
+            "treatment_ne": [
+                "एकीकृत खाद्य तत्व व्यवस्थापन (INM) लागू गर्नुहोस्।",
+                "ढुसी वा ब्याक्टेरियाको संक्रमणको सुरुवाती लक्षणहरूको लागि नियमित निरीक्षण गर्नुहोस्।",
+                "बालीको वृद्धिको अवस्था अनुसार पानीको सतह कायम राख्नुहोस्।",
+                "कीराहरू बस्ने ठाउँ कम गर्न आलीहरूमा झारपात हटाउनुहोस्।"
+            ]
+        },
+        "tungro": {
+            "name": "Rice Tungro Disease (RTD)",
+            "description": "Stunted plants with yellow to orange-red leaf discoloration starting from tips. Transmitted by Green Leafhopper.",
+            "treatment": [
+                "Control Green Leafhopper vector: Imidacloprid (40–50 ml/acre) or Thiamethoxam (40 g/acre).",
+                "Nutritional Support: Spray 2% Urea + Mancozeb to reduce yellowing symptoms.",
+                "Practice synchronous planting.",
+                "Use resistant varieties."
+            ],
+            "citations": [
+                "ICT-AAS-mango - TNAU Agritech Portal - https://agritech.tnau.ac.in/govt_schemes_services/aas/paddy_ex1.html"
+            ],
+            "name_ne": "टुंग्रो रोग",
+            "description_ne": "बोटहरू होचो हुने र पातको टुप्पोबाट पहेँलो वा सुन्तला-रातो रङको हुने। यो हरियो फड्के कीराबाट सर्छ।",
+            "treatment_ne": [
+                "वाहक (हरियो फड्के कीरा) नियन्त्रण गर्नुहोस्: इमिडाक्लोप्रिड (४०–५० मिलि/एकर) वा थियामेथोक्साम प्रयोग गर्नुहोस्।",
+                "पोषण: पहेँलोपन कम गर्न २% युरिया र म्यान्कोजेब मिसाएर छर्नुहोस्।",
+                "सामूहिक रूपमा एकै समयमा रोपाईँ गर्नुहोस्।",
+                "प्रतिरोधी जातहरू प्रयोग गर्नुहोस्।"
+            ]
+        }
+    }
+}
