@@ -1,1 +1,0 @@
-Can't get attribute 'Config' on <module '__main__' from 'C:\\Users\\basto\\OneDrive\\Documents\\IMPORTANT\\hackathon\\cropdetect\\backend\\debug_rice_simple.py'>
