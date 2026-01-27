@@ -549,6 +549,7 @@ async def predict_rice(file: UploadFile = File(...)):
 
 class TextDiagnosisRequest(BaseModel):
     text: str
+    language: str = "en"
 
 @app.post("/diagnose-text")
 async def diagnose_text_endpoint(request: TextDiagnosisRequest):
@@ -563,6 +564,10 @@ async def diagnose_text_endpoint(request: TextDiagnosisRequest):
         # Classify
         predictions = classify_with_cohere(english_text)
         
+        # Translate response back to Nepali if requested
+        if request.language == 'ne':
+            predictions = translate_predictions_to_nepali(predictions)
+            
         return {
             "success": True,
             "original_text": original_text,
@@ -574,7 +579,7 @@ async def diagnose_text_endpoint(request: TextDiagnosisRequest):
         return JSONResponse(status_code=500, content={"success": False, "error": str(e)})
 
 @app.post("/diagnose-audio")
-async def diagnose_audio_endpoint(file: UploadFile = File(...)):
+async def diagnose_audio_endpoint(file: UploadFile = File(...), language: str = Form("en")):
     temp_filename = None
     wav_filename = None
     try:
@@ -603,6 +608,11 @@ async def diagnose_audio_endpoint(file: UploadFile = File(...)):
         predictions = classify_with_cohere(english_text)
         print(f"✅ Classifications: {len(predictions)}")
         
+        # Translate response back to Nepali if requested
+        if language == 'ne':
+            print("▶️ Translating response to Nepali...")
+            predictions = translate_predictions_to_nepali(predictions)
+
         return {
             "success": True,
             "transcribed_text": text,
@@ -624,6 +634,26 @@ async def diagnose_audio_endpoint(file: UploadFile = File(...)):
                     os.remove(f)
                 except:
                     pass
+
+def translate_predictions_to_nepali(predictions):
+    """Translate prediction fields to Nepali"""
+    translator = GoogleTranslator(source='en', target='ne')
+    
+    translated_preds = []
+    for p in predictions:
+        new_p = p.copy()
+        try:
+            # Translate key fields
+            # We combine them to reduce API calls if possible, but line by line is safer for formatting
+            if 'disease' in p: new_p['disease'] = translator.translate(p['disease'])
+            if 'symptoms' in p: new_p['symptoms'] = translator.translate(p['symptoms'])
+            if 'actions' in p: new_p['actions'] = translator.translate(p['actions'])
+            if 'prevention' in p: new_p['prevention'] = translator.translate(p['prevention'])
+        except Exception as e:
+            print(f"⚠️ Response translation failed: {e}")
+        translated_preds.append(new_p)
+        
+    return translated_preds
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
