@@ -51,46 +51,39 @@ paddy_diseases = None
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # ------------------ TOMATO CONFIG ------------------
-TOMATO_LEAF_MODEL = os.path.join(MODELS_PATH, "best.pt")
-TOMATO_CLS_MODEL  = os.path.join(MODELS_PATH, "resnet18_tomato_best.pth")
-TOMATO_DATA_YAML  = os.path.join(MODELS_PATH, "data.yaml")
+# 10 Classes
+TOMATO_CLASSES = [
+    "Bacterial Spot", "Early Blight", "Healthy", "Late Blight", "Leaf Mold", 
+    "Leaf_Miner", "Mosaic Virus", "Septoria", "Spider Mites", "Yellow Leaf Curl Virus"
+]
 TOMATO_IMG_SIZE   = 224
 TOMATO_CONF_THRES = 0.4
 TOMATO_PAD_RATIO  = 0.2
 
+tomato_class_names = TOMATO_CLASSES # Alias for compatibility
+
 # ------------------ POTATO CONFIG ------------------
-POTATO_CKPT_PATH = os.path.join(MODELS_PATH, "best_potato_realworld.pth")
+# 3 Classes
+potato_classes = ["Early_Blight", "Healthy", "Late_Blight"]
+potato_img_size = 256
+potato_mean = [0.485, 0.456, 0.406]
+potato_std = [0.229, 0.224, 0.225]
 
 # ------------------ RICE CONFIG ------------------
-RICE_MODEL_PATH = os.path.join(MODELS_PATH, "kisanai_rice_complete.pth")
-RICE_IMG_SIZE = 224
+# 12 Classes - Must match rice_new.pth output
 RICE_CLASSES = [
-    "bacterial_leaf_blight",
-    "bacterial_leaf_streak",
-    "bacterial_panicle_blight",
-    "blast",
-    "brown_spot",
-    "dead_heart",
-    "downy_mildew",
-    "hispa",
-    "normal",
-    "tungro"
+    "bacterial_leaf_blight", "bacterial_leaf_streak", "bacterial_panicle_blight",
+    "blast", "brown_spot", "dead_heart", "downy_mildew", "hispa", 
+    "leaf_smut", "normal", "sheath_blight", "tungro"
 ]
 
 # Global variables for models
 tomato_detector = None
 tomato_classifier = None
-tomato_class_names = []
 
 potato_model = None
-potato_classes = []
-potato_img_size = 224
-potato_mean = [0.485, 0.456, 0.406]
-potato_std = [0.229, 0.224, 0.225]
-potato_preprocess = None
 
 rice_model = None
-rice_preprocess = None
 
 # ------------------ HEALTH LOGIC ------------------
 
