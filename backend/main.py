@@ -337,16 +337,7 @@ tomato_val_tfms = transforms.Compose([
 potato_preprocess = standard_val_tfms
 rice_preprocess = standard_val_tfms
 
-# Dummy Config class for unpickling Rice model
-class Config:
-    pass
 
-# Inject Config into __main__ namespace so pickle can find it
-import __main__
-setattr(__main__, "Config", Config)
-
-        ),
-    ])
 
 # ------------------ MEMORY MANAGEMENT ------------------
 import gc
