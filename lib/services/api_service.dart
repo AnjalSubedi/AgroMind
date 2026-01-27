@@ -40,8 +40,9 @@ class ApiService {
 
   // Default to local machine IP for physical device testing
   // Use 10.0.2.2 for Android Emulator, or your LAN IP for physical device
-  // Tunnel URL for reliable connection
-  ApiService({this.baseUrl = 'https://twelve-kings-smile.loca.lt'});
+  // Production Server (Render)
+  // ApiService({this.baseUrl = 'https://twelve-kings-smile.loca.lt'});
+  ApiService({this.baseUrl = 'https://testing-woqr.onrender.com'});
 
   Future<PredictionResult> predictTomato(File imageFile) async {
     return _predict('/predict/tomato', imageFile);
