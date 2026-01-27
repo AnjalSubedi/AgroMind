@@ -270,24 +270,72 @@ def load_potato_models():
     potato_img_size = ckpt["img_size"]
     potato_mean = ckpt["mean"]
     potato_std = ckpt["std"]
+    """Load updated Potato ResNet50 classifier"""
+    global potato_model
+    try:
+        model_path = os.path.join("models", "potato_resnet50_new.pt")
+        if os.path.exists(model_path):
+             print(f"✅ Loading Potato Model from {model_path}...")
+             # Initialize ResNet50
+             potato_model = models.resnet50(weights=None)
+             potato_model.fc = nn.Linear(potato_model.fc.in_features, len(potato_classes))
+             
+             # Load from checkpoint dict
+             ckpt = torch.load(model_path, map_location=DEVICE)
+             # Handle 'model_state_dict' key if present (as seen in app.py)
+             if isinstance(ckpt, dict) and "model_state_dict" in ckpt:
+                 potato_model.load_state_dict(ckpt["model_state_dict"])
+             else:
+                 potato_model.load_state_dict(ckpt)
+                 
+             potato_model.to(DEVICE)
+             potato_model.eval()
+        else:
+             print(f"❌ Potato model not found at {model_path}")
 
-    # Build model
-    def build_model(num_classes: int) -> nn.Module:
-        model = efficientnet_v2_s(weights=None)
-        in_features = model.classifier[1].in_features
-        model.classifier[1] = nn.Linear(in_features, num_classes)
-        return model
+    except Exception as e:
+        print(f"❌ Error loading Potato model: {e}")
 
-    model = build_model(len(potato_classes)).to(DEVICE)
-    model.load_state_dict(ckpt["model_state"])
-    potato_model = model.eval()
-    
-    potato_preprocess = transforms.Compose([
-        transforms.Resize((potato_img_size, potato_img_size)),
-        transforms.ToTensor(),
-        transforms.Normalize(potato_mean, potato_std),
-    ])
-    print("Potato Model loaded successfully.")
+def load_rice_models():
+    """Load updated Rice ResNet50 classifier"""
+    global rice_model
+    try:
+        model_path = os.path.join("models", "rice_new.pth")
+        if os.path.exists(model_path):
+             print(f"✅ Loading Rice Model from {model_path}...")
+             # Initialize ResNet50 (Changed from EfficientNet)
+             rice_model = models.resnet50(weights=None)
+             rice_model.fc = nn.Linear(rice_model.fc.in_features, len(RICE_CLASSES))
+             
+             state_dict = torch.load(model_path, map_location=DEVICE)
+             rice_model.load_state_dict(state_dict)
+             
+             rice_model.to(DEVICE)
+             rice_model.eval()
+        else:
+             print(f"❌ Rice model not found at {model_path}")
+             
+    except Exception as e:
+        print(f"❌ Error loading Rice model: {e}")
+
+# ------------------ PREPROCESSING ------------------
+# Potato & Rice: Standard ResNet (Resize 256 -> Crop 224)
+standard_val_tfms = transforms.Compose([
+    transforms.Resize((256, 256)),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]) 
+])
+
+# Tomato: Resize 224 (No Crop) as per app.py
+tomato_val_tfms = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+
+potato_preprocess = standard_val_tfms
+rice_preprocess = standard_val_tfms
 
 # Dummy Config class for unpickling Rice model
 class Config:
@@ -297,56 +345,6 @@ class Config:
 import __main__
 setattr(__main__, "Config", Config)
 
-def load_rice_models():
-    global rice_model, rice_preprocess
-    
-    print(f"Loading Rice Model from {RICE_MODEL_PATH}...")
-    if not os.path.exists(RICE_MODEL_PATH):
-        print(f"Warning: {RICE_MODEL_PATH} not found.")
-        return
-
-    # Architecture is ResNet50
-    model = models.resnet50(weights=None)
-    
-    # Reconstruct fc layer to match saved state_dict
-    model.fc = nn.Sequential(
-        nn.Dropout(0.2), 
-        nn.Linear(2048, 512),
-        nn.ReLU(),
-        nn.Dropout(0.2),
-        nn.Linear(512, len(RICE_CLASSES))
-    )
-    
-    try:
-        # Pass weights_only=False because this is a pickle with custom classes (Config)
-        checkpoint = torch.load(RICE_MODEL_PATH, map_location=DEVICE, weights_only=False)
-        
-        state_dict = None
-        if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-             state_dict = checkpoint["model_state_dict"]
-        elif isinstance(checkpoint, nn.Module):
-             rice_model = checkpoint.to(DEVICE).eval()
-             print("Rice Model loaded successfully (full model).")
-             return
-        else:
-             state_dict = checkpoint
-
-        if state_dict:
-             print("Loading state dict into reconstructed architecture...")
-             model.load_state_dict(state_dict)
-             rice_model = model.to(DEVICE).eval()
-             print("Rice Model loaded successfully.")
-
-    except Exception as e:
-        print(f"Error loading Rice model: {e}")
-        rice_model = None
-
-    rice_preprocess = transforms.Compose([
-        transforms.Resize((RICE_IMG_SIZE, RICE_IMG_SIZE)),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225],
         ),
     ])
 
@@ -403,15 +401,13 @@ load_csv()
 
 
 # ------------------ TOMATO UTILS ------------------
-tomato_val_tfms = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((TOMATO_IMG_SIZE, TOMATO_IMG_SIZE)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225],
-    ),
-])
+TOMATO_CONF_THRES = 0.4
+TOMATO_PAD_RATIO = 0.2
+TOMATO_IMG_SIZE = 224
+
+# tomato_val_tfms is already defined above, removing duplicate and fixing constants
+# The existing tomato_val_tfms above line 330 is correct.
+
 
 def crop_largest_leaf(img_bgr):
     if tomato_detector is None:
@@ -481,7 +477,7 @@ async def predict_tomato(file: UploadFile = File(...)):
         pred = int(torch.argmax(probs).item())
 
     return {
-        "class": tomato_class_names[pred] if pred < len(tomato_class_names) else str(pred),
+        "class": TOMATO_CLASSES[pred] if pred < len(TOMATO_CLASSES) else str(pred),
         "confidence": float(probs[pred].item())
     }
 
