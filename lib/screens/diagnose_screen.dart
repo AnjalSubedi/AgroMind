@@ -94,7 +94,8 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
     setState(() => _isAnalyzing = true);
     try {
       final api = ApiService();
-      final response = await api.diagnoseAudio(filePath);
+      final String lang = Localizations.localeOf(context).languageCode;
+      final response = await api.diagnoseAudio(filePath, languageCode: lang);
 
       if (response['success'] == true) {
         final transcribed = response['transcribed_text'];
@@ -116,7 +117,8 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
     setState(() => _isAnalyzing = true);
     try {
       final api = ApiService();
-      final response = await api.diagnoseText(text);
+      final String lang = Localizations.localeOf(context).languageCode;
+      final response = await api.diagnoseText(text, languageCode: lang);
       _processDiagnosisResponse(response, text);
     } catch (e) {
       if (mounted)

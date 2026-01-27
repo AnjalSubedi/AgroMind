@@ -56,13 +56,16 @@ class ApiService {
     return _predict('/predict/rice', imageFile);
   }
 
-  Future<Map<String, dynamic>> diagnoseText(String text) async {
+  Future<Map<String, dynamic>> diagnoseText(
+    String text, {
+    String languageCode = 'en',
+  }) async {
     final uri = Uri.parse('$baseUrl/diagnose-text');
     try {
       final response = await http.post(
         uri,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'text': text}),
+        body: jsonEncode({'text': text, 'language': languageCode}),
       );
 
       if (response.statusCode == 200) {
@@ -77,10 +80,14 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> diagnoseAudio(String filePath) async {
+  Future<Map<String, dynamic>> diagnoseAudio(
+    String filePath, {
+    String languageCode = 'en',
+  }) async {
     final uri = Uri.parse('$baseUrl/diagnose-audio');
     final request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('file', filePath));
+    request.fields['language'] = languageCode;
 
     try {
       final streamedResponse = await request.send();
