@@ -50,10 +50,16 @@ def transcribe_audio(file_path: str) -> str:
             print("   Reading audio data...")
             audio_data = r.record(source)
             
-            print("   Sending to Google Speech API...")
+            print("   Sending to Google Speech API (Nepali)...")
             # recognize_google is free and doesn't verify API key for low volume
-            text = r.recognize_google(audio_data)
-            print(f"🎤 Transcribed: \"{text}\"")
+            # Try Nepali first
+            try:
+                text = r.recognize_google(audio_data, language="ne-NP")
+                print(f"🎤 Transcribed (NE): \"{text}\"")
+            except sr.UnknownValueError:
+                print("⚠️ Nepali recognition failed, trying English...")
+                text = r.recognize_google(audio_data, language="en-US")
+                print(f"🎤 Transcribed (EN): \"{text}\"")
             
             return text
 
