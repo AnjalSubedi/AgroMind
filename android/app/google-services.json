@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "514851636890",
-    "project_id": "sajilokheti",
-    "storage_bucket": "sajilokheti.firebasestorage.app"
+    "project_number": "760008752338",
+    "project_id": "sajilokheti-v2",
+    "storage_bucket": "sajilokheti-v2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:514851636890:android:ec8d8e44e291348f1c0123",
+        "mobilesdk_app_id": "1:760008752338:android:df6e522321130c272dc10b",
         "android_client_info": {
           "package_name": "com.example.cropdetect"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "514851636890-jgl40k2cfaqcq9ofid6q9k16e49st0i0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDeMS1L03tgbBsPCwrtghsIG0FrfgGYOZw"
+          "current_key": "AIzaSyCWHpr7oCi_XY8Y4AH8cS9fhtwFCgWfAcU"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "514851636890-jgl40k2cfaqcq9ofid6q9k16e49st0i0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

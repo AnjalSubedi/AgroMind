@@ -1,15 +1,13 @@
 import 'dart:io';
+import 'dart:convert'; // [NEW]
+import 'package:http/http.dart' as http; // [NEW]
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import '../models/post_model.dart';
-import 'package:uuid/uuid.dart';
 
 class CommunityService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final Uuid _uuid = const Uuid();
 
   // Get Posts Stream
   Stream<List<PostModel>> getPosts() {
@@ -40,29 +38,34 @@ class CommunityService {
     String? imageUrl;
 
     if (image != null) {
-      // Upload image
+      // Upload image to AWS Backend (Bypassing Firebase Storage)
       try {
-        final ref = _storage
-            .ref()
-            .child('post_images')
-            .child('${_uuid.v4()}.jpg');
+        print("DEBUG: Uploading image to AWS...");
 
-        print("DEBUG: Starting image upload to ${ref.fullPath}");
-        final taskSnapshot = await ref.putFile(image);
+        final uri = Uri.parse(
+          'http://13.201.45.58:8000/upload',
+        ); // AWS EC2 Upload Endpoint
+        final request = http.MultipartRequest('POST', uri);
 
-        if (taskSnapshot.state == TaskState.success) {
-          print("DEBUG: Upload success, getting URL...");
-          imageUrl = await ref.getDownloadURL();
-          print("DEBUG: Got URL: $imageUrl");
+        request.files.add(
+          await http.MultipartFile.fromPath('file', image.path),
+        );
+
+        final response = await request.send();
+
+        if (response.statusCode == 200) {
+          final respStr = await response.stream.bytesToString();
+          final jsonResp = json.decode(respStr);
+          // Construct full URL
+          imageUrl = "http://13.201.45.58:8000${jsonResp['url']}";
+          print("DEBUG: Got AWS URL: $imageUrl");
         } else {
-          print("ERROR: Upload failed with state: ${taskSnapshot.state}");
-          throw Exception(
-            "Image upload failed with state: ${taskSnapshot.state}",
-          );
+          print("ERROR: AWS Upload failed with status: ${response.statusCode}");
+          throw Exception("Image upload failed: ${response.reasonPhrase}");
         }
       } catch (e) {
         print("ERROR: Failed to upload image: $e");
-        rethrow; // Re-throw to show snackbar
+        rethrow;
       }
     }
 

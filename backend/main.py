@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles # [NEW]
 from pydantic import BaseModel
 import uvicorn
 import cohere
@@ -17,11 +18,11 @@ from ultralytics import YOLO
 import yaml
 import os
 import io
+import uuid # [NEW]
 from PIL import Image
-import speech_recognition as sr # Removed - moved to voice_processor
+import speech_recognition as sr 
 import tempfile
 import shutil
-# pydub removed - moved to voice_processor
 from models.voice_processor import transcribe_audio
 
 
@@ -29,6 +30,11 @@ from models.voice_processor import transcribe_audio
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 
 app = FastAPI(title="Crop Disease Detection API")
+
+# ------------------ IMAGE STORAGE CONFIG (AWS Alternative) ------------------
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 # ------------------ SHARED CONFIG ------------------
 MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -525,36 +531,31 @@ async def predict_rice(file: UploadFile = File(...)):
         "probabilities": {RICE_CLASSES[i]: float(probs[i].item()) for i in range(len(RICE_CLASSES))}
     }
 
-class TextDiagnosisRequest(BaseModel):
-    text: str
-    language: str = "en"
-
-@app.post("/diagnose-text")
-async def diagnose_text_endpoint(request: TextDiagnosisRequest):
+@app.post("/upload")
+async def upload_image(file: UploadFile = File(...)):
+    """
+    Uploads an image to the local server (AWS EC2) and returns the public URL.
+    Replaces Firebase Storage for community posts.
+    """
     try:
-        original_text = request.text
-        if not original_text:
-             return JSONResponse(status_code=400, content={"error": "No text provided"})
+        # Validate image
+        if not file.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="File must be an image")
 
-        # Translate
-        english_text = translate_to_english(original_text)
-        
-        # Classify
-        predictions = classify_with_cohere(english_text)
-        
-        # Translate response back to Nepali if requested
-        if request.language == 'ne':
-            predictions = translate_predictions_to_nepali(predictions)
-            
-        return {
-            "success": True,
-            "original_text": original_text,
-            "translated_text": english_text,
-            "predictions": predictions,
-            "total_predictions": len(predictions)
-        }
+        # Generate unique filename
+        filename = f"{uuid.uuid4()}{os.path.splitext(file.filename)[1]}"
+        file_path = os.path.join(UPLOAD_DIR, filename)
+
+        # Save to disk
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # Return relative URL
+        return {"url": f"/uploads/{filename}", "filename": filename}
+
     except Exception as e:
-        return JSONResponse(status_code=500, content={"success": False, "error": str(e)})
+        print(f"Upload Error: {e}")
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 @app.post("/diagnose-audio")
 async def diagnose_audio_endpoint(file: UploadFile = File(...), language: str = Form("en")):

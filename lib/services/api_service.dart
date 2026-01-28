@@ -42,7 +42,8 @@ class ApiService {
   // Use 10.0.2.2 for Android Emulator, or your LAN IP for physical device
   // Production Server (Render)
   // ApiService({this.baseUrl = 'https://twelve-kings-smile.loca.lt'});
-  ApiService({this.baseUrl = 'https://testing-woqr.onrender.com'});
+  // Production Server (AWS EC2)
+  ApiService({this.baseUrl = 'http://13.201.45.58:8000'});
 
   Future<PredictionResult> predictTomato(File imageFile) async {
     return _predict('/predict/tomato', imageFile);
