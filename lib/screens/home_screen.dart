@@ -11,6 +11,7 @@ import 'community_screen.dart';
 import 'profile_screen.dart';
 import '../services/auth_service.dart';
 import '../models/user_model.dart';
+import 'portal_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -83,6 +84,13 @@ class _HomeContentState extends State<_HomeContent> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const DiagnoseScreen()),
+    );
+  }
+
+  void _navigateToPortal(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PortalScreen()),
     );
   }
 
@@ -286,6 +294,79 @@ class _HomeContentState extends State<_HomeContent> {
                           onTap: () => _navigateToCrop(context, l10n.tomato),
                         ),
                       ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // Know Your Crops Section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: GestureDetector(
+                      onTap: () => _navigateToPortal(context),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.shade50,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.orange.withOpacity(0.3),
+                          ),
+                          image: const DecorationImage(
+                            image: NetworkImage(
+                              "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2070&auto=format&fit=crop",
+                            ),
+                            fit: BoxFit.cover,
+                            opacity: 0.2,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.menu_book_rounded,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Know Your Crops",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.brown[900],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Read latest news & farming guides",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 14,
+                                      color: Colors.brown[700],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: Colors.brown,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
