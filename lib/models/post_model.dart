@@ -10,6 +10,7 @@ class PostModel {
   final DateTime timestamp;
   final List<String> likes;
   final int commentsCount;
+  final bool isVerified;
 
   PostModel({
     required this.id,
@@ -21,6 +22,7 @@ class PostModel {
     required this.timestamp,
     this.likes = const [],
     this.commentsCount = 0,
+    this.isVerified = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +36,7 @@ class PostModel {
       'timestamp': Timestamp.fromDate(timestamp),
       'likes': likes,
       'commentsCount': commentsCount,
+      'isVerified': isVerified,
     };
   }
 
@@ -48,6 +51,7 @@ class PostModel {
       timestamp: (map['timestamp'] as Timestamp).toDate(),
       likes: List<String>.from(map['likes'] ?? []),
       commentsCount: map['commentsCount'] ?? 0,
+      isVerified: map['isVerified'] ?? false,
     );
   }
 }

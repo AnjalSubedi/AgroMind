@@ -91,7 +91,12 @@ class ApiService {
     request.fields['language'] = languageCode;
 
     try {
-      final streamedResponse = await request.send();
+      final streamedResponse = await request.send().timeout(
+        const Duration(seconds: 120),
+        onTimeout: () {
+          throw Exception('Request timed out. Server took too long.');
+        },
+      );
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
@@ -102,7 +107,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      throw Exception('Connection error: $e');
+      throw Exception('Connection/Server error: $e');
     }
   }
 

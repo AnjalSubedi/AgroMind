@@ -1,4 +1,5 @@
 import 'package:cropdetect/services/auth_service.dart';
+import 'package:flutter/services.dart';
 import '../models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:cropdetect/l10n/app_localizations.dart';
 import '../providers/locale_provider.dart';
 import 'settings_screen.dart';
+import 'admin_dashboard_screen.dart';
 
 import 'scan_history_screen.dart';
 
@@ -60,17 +62,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: colorScheme.primary,
-                child: Text(
-                  _requestUser?.name.isNotEmpty == true
-                      ? _requestUser!.name[0].toUpperCase()
-                      : "U",
-                  style: GoogleFonts.outfit(
-                    fontSize: 40,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              child: GestureDetector(
+                onLongPress: () {
+                  if (_requestUser != null) {
+                    // Copy UID to clipboard
+                    // import 'package:flutter/services.dart'; needed?
+                    // Let's use SelectableText logic or just show it?
+                    // Better to just copy.
+                    Clipboard.setData(ClipboardData(text: _requestUser!.uid));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("UID Copied: ${_requestUser!.uid}"),
+                        backgroundColor: Colors.grey[800],
+                      ),
+                    );
+                  }
+                },
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: colorScheme.primary,
+                  child: Text(
+                    _requestUser?.name.isNotEmpty == true
+                        ? _requestUser!.name[0].toUpperCase()
+                        : "U",
+                    style: GoogleFonts.outfit(
+                      fontSize: 40,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -92,6 +111,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const SizedBox(height: 32),
+            if (_requestUser?.isAdmin == true)
+              _buildProfileOption(
+                context,
+                Icons.admin_panel_settings_outlined,
+                "Admin Panel",
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AdminDashboardScreen(),
+                    ),
+                  );
+                },
+              ),
             _buildProfileOption(
               context,
               Icons.settings_outlined,
@@ -137,6 +170,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
               () => _showAboutDialog(context),
             ),
             const SizedBox(height: 24),
+
+            const SizedBox(height: 16),
+
+            // Expert Verification Button
+            if (_requestUser != null && !_requestUser!.isVerified)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: _requestUser!.verificationRequested
+                    ? Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.orange.withOpacity(0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.pending_actions,
+                              color: Colors.orange,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                "Verification Pending",
+                                style: GoogleFonts.outfit(
+                                  color: Colors.orange[800],
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () async {
+                            await _authService.requestVerification();
+                            await _loadUserData(); // Refresh UI
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Application Sent! We will review shortly.",
+                                  ),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.verified_user_outlined),
+                          label: Text(
+                            "Apply for Expert Verification",
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: colorScheme.primary,
+                            side: BorderSide(color: colorScheme.primary),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+
             TextButton(
               onPressed: () async {
                 await _authService.signOut();

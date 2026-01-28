@@ -26,10 +26,13 @@ class CommunityService {
 
     // Fetch user details for name (optional, or use standard auth name)
     String userName = user.displayName ?? "Farmer";
+    bool isVerified = false;
+
     // Check if we have a user doc (better source of truth)
     final userDoc = await _firestore.collection('users').doc(user.uid).get();
     if (userDoc.exists) {
       userName = userDoc.data()?['name'] ?? userName;
+      isVerified = userDoc.data()?['isVerified'] ?? false;
     }
 
     // Image logic removed as per user request (buggy)
@@ -45,6 +48,7 @@ class CommunityService {
       timestamp: DateTime.now(),
       likes: [],
       commentsCount: 0,
+      isVerified: isVerified,
     );
 
     await _firestore.collection('posts').add(post.toMap());

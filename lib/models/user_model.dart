@@ -4,6 +4,9 @@ class UserModel {
   final String name;
   final String location;
   final String createdAt;
+  final bool isVerified;
+  final bool verificationRequested;
+  final bool isAdmin;
 
   UserModel({
     required this.uid,
@@ -11,6 +14,9 @@ class UserModel {
     required this.name,
     required this.location,
     required this.createdAt,
+    this.isVerified = false,
+    this.verificationRequested = false,
+    this.isAdmin = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +26,9 @@ class UserModel {
       'name': name,
       'location': location,
       'createdAt': createdAt,
+      'isVerified': isVerified,
+      'verificationRequested': verificationRequested,
+      'isAdmin': isAdmin,
     };
   }
 
@@ -30,6 +39,9 @@ class UserModel {
       name: map['name'] ?? '',
       location: map['location'] ?? '',
       createdAt: map['createdAt'] ?? '',
+      isVerified: map['isVerified'] ?? false,
+      verificationRequested: map['verificationRequested'] ?? false,
+      isAdmin: map['isAdmin'] ?? false,
     );
   }
 }

@@ -215,7 +215,7 @@
         }
     },
     "potato": {
-        "Potato___Early_blight": {
+        "Early_Blight": {
             "name": "Early Blight (Alternaria solani)",
             "description": "Dark brown spots with concentric rings on older leaves. Dry lesions delimited by veins. Causes premature senescence.",
             "treatment": [
@@ -237,7 +237,7 @@
                 "आलुमा संक्रमणको जोखिम कम गर्न बोट मरेपछि मात्र बाली भित्र्याउनुहोस्।"
             ]
         },
-        "Potato___Late_blight": {
+        "Late_Blight": {
             "name": "Late Blight (Phytophthora infestans)",
             "description": "Rapid dark lesions on leaves/stems; infected tubers show reddish-brown granular rot. Critical threat.",
             "treatment": [
@@ -260,7 +260,7 @@
                 "रोगका स्रोतहरू हटाउन संक्रमित थुप्राहरू नष्ट गर्नुहोस्।"
             ]
         },
-        "Potato___healthy": {
+        "Healthy": {
             "name": "Healthy Potato",
             "description": "Foliage is green and vigorous. No signs of blight or chlorosis.",
             "treatment": [
@@ -491,6 +491,44 @@
                 "पोषण: पहेँलोपन कम गर्न २% युरिया र म्यान्कोजेब मिसाएर छर्नुहोस्।",
                 "सामूहिक रूपमा एकै समयमा रोपाईँ गर्नुहोस्।",
                 "प्रतिरोधी जातहरू प्रयोग गर्नुहोस्।"
+            ]
+        },
+        "sheath_blight": {
+            "name": "Sheath Blight (Rhizoctonia solani)",
+            "description": "Oval or elliptical greenish-gray spots with brown borders on leaf sheaths near the waterline. Lesions enlarge and spread up.",
+            "treatment": [
+                "Apply Validamycin 3L or Hexaconazole 5EC (2ml/L) directed at the lower sheath.",
+                "Avoid dense planting and excess nitrogen.",
+                "Drain water in field if severe."
+            ],
+            "citations": [
+                "Rice Sheath Blight - IRRI Rice Knowledge Bank"
+            ],
+            "name_ne": "शिथ ब्लाइट (पत्रे रोग/डाँठ डढुवा)",
+            "description_ne": "पानीको सतह नजिक डाँठको पत्रमा अण्डाकार हरियो-खरानी दागहरू देखिन्छन् जसको घेरा खैरो हुन्छ।",
+            "treatment_ne": [
+                "भ्यालिडामाइसिन ३एल वा हेक्साकोनाजोल ५ईसी (२ मिलि/लिटर) डाँठको फेदमा पर्ने गरी छर्नुहोस्।",
+                "बाक्लो रोपाईँ र धेरै युरिया मल प्रयोग नगर्नुहोस्।",
+                "धेरै संक्रमण भएमा खेतको पानी सुकाउनुहोस्।"
+            ]
+        },
+        "leaf_smut": {
+            "name": "Leaf Smut (Entyloma oryzae)",
+            "description": "Small, black, linear or rectangular angular spots on leaf blades. Leaf tips may turn brown and dry.",
+            "treatment": [
+                "Apply Copper Oxychloride (2.5g/L) or Mancozeb.",
+                "Use balanced fertilizer (Potash).",
+                "Remove infected crop residue."
+            ],
+            "citations": [
+                "Rice Leaf Smut - LSU AgCenter"
+            ],
+            "name_ne": "लिफ स्मट (कालो पोके रोग)",
+            "description_ne": "पातमा साना, काला, र चारकुने वा लाम्चो थोप्लाहरू देखिन्छन्। पातको टुप्पो खैरो भएर सुक्न सक्छ।",
+            "treatment_ne": [
+                "कपर अक्सिक्लोराइड (२.५ ग्राम/लिटर) वा म्यान्कोजेब छर्नुहोस्।",
+                "सन्तुलित मलखाद (पोटास) प्रयोग गर्नुहोस्।",
+                "संक्रमित बोटका अवशेषहरू हटाउनुहोस्।"
             ]
         }
     }

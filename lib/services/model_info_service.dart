@@ -53,40 +53,42 @@ class ModelInfoService {
 
       final cropInfo = _diseaseData![cropKey] as Map<String, dynamic>?;
 
-      if (cropInfo != null && cropInfo.containsKey(className)) {
-        final info = cropInfo[className];
+      if (cropInfo != null) {
+        if (cropInfo.containsKey(className)) {
+          final info = cropInfo[className];
 
-        bool isNepali = locale.languageCode == 'ne';
+          bool isNepali = locale.languageCode == 'ne';
 
-        // Fetch name
-        if (isNepali && info['name_ne'] != null) {
-          name = info['name_ne'];
-        } else {
-          name = info['name'] ?? className;
-        }
+          // Fetch name
+          if (isNepali && info['name_ne'] != null) {
+            name = info['name_ne'];
+          } else {
+            name = info['name'] ?? className;
+          }
 
-        // Fetch description
-        if (isNepali && info['description_ne'] != null) {
-          description = info['description_ne'];
-        } else {
-          description = info['description'] ?? description;
-        }
+          // Fetch description
+          if (isNepali && info['description_ne'] != null) {
+            description = info['description_ne'];
+          } else {
+            description = info['description'] ?? description;
+          }
 
-        // Fetch treatment
-        List<dynamic>? rawTreatment;
-        if (isNepali && info['treatment_ne'] != null) {
-          rawTreatment = info['treatment_ne'];
-        } else {
-          rawTreatment = info['treatment'];
-        }
+          // Fetch treatment
+          List<dynamic>? rawTreatment;
+          if (isNepali && info['treatment_ne'] != null) {
+            rawTreatment = info['treatment_ne'];
+          } else {
+            rawTreatment = info['treatment'];
+          }
 
-        if (rawTreatment != null) {
-          treatment = List<String>.from(rawTreatment);
-        }
+          if (rawTreatment != null) {
+            treatment = List<String>.from(rawTreatment);
+          }
 
-        // Fetch citations (Language neutral mostly, but could have _ne if needed)
-        if (info['citations'] != null) {
-          citations = List<String>.from(info['citations']);
+          // Fetch citations (Language neutral mostly, but could have _ne if needed)
+          if (info['citations'] != null) {
+            citations = List<String>.from(info['citations']);
+          }
         }
       }
     }

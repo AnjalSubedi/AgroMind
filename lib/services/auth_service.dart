@@ -113,6 +113,16 @@ class AuthService {
     }
   }
 
+  // Request Verification
+  Future<void> requestVerification() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      await _firestore.collection('users').doc(user.uid).update({
+        'verificationRequested': true,
+      });
+    }
+  }
+
   // Sign Out
   Future<void> signOut() async {
     await _auth.signOut();

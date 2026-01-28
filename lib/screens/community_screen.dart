@@ -231,13 +231,25 @@ class _PostCardState extends State<_PostCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.post.userName,
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: theme.textTheme.bodyLarge?.color,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.post.userName,
+                        style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: theme.textTheme.bodyLarge?.color,
+                        ),
+                      ),
+                      if (widget.post.isVerified) ...[
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.verified,
+                          size: 16,
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ],
                   ),
                   Text(
                     _formatTimestamp(context, widget.post.timestamp),
