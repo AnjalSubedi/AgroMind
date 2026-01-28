@@ -75,4 +75,63 @@ class CommunityService {
       await postRef.update({'likes': likes});
     }
   }
+
+  // Delete Post
+  Future<void> deletePost(String postId) async {
+    await _firestore.collection('posts').doc(postId).delete();
+  }
+
+  // Add Comment
+  Future<void> addComment(String postId, String content) async {
+    final user = _auth.currentUser;
+    if (user == null) throw Exception("User not logged in");
+
+    String userName = user.displayName ?? "Farmer";
+    bool isVerified = false;
+
+    // Fetch user details for accurate name/verified status
+    final userDoc = await _firestore.collection('users').doc(user.uid).get();
+    if (userDoc.exists) {
+      userName = userDoc.data()?['name'] ?? userName;
+      isVerified = userDoc.data()?['isVerified'] ?? false;
+    }
+
+    final comment = {
+      'postId': postId,
+      'userId': user.uid,
+      'userName': userName,
+      'content': content,
+      'timestamp': FieldValue.serverTimestamp(),
+      'isVerified': isVerified,
+    };
+
+    // Add comment to subcollection
+    await _firestore
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .add(comment);
+
+    // Increment comment count
+    await _firestore.collection('posts').doc(postId).update({
+      'commentsCount': FieldValue.increment(1),
+    });
+  }
+
+  // Get Comments Stream
+  Stream<List<Map<String, dynamic>>> getComments(String postId) {
+    return _firestore
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .orderBy('timestamp', descending: false)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc) {
+            final data = doc.data();
+            data['id'] = doc.id;
+            return data;
+          }).toList();
+        });
+  }
 }

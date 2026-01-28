@@ -5,6 +5,7 @@ import '../services/community_service.dart';
 import '../services/cohere_service.dart';
 import '../models/post_model.dart';
 import 'create_post_screen.dart';
+import 'post_detail_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CommunityScreen extends StatelessWidget {
@@ -136,6 +137,32 @@ class _PostCardState extends State<_PostCard> {
     }
   }
 
+  Future<void> _deletePost() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Delete Post?"),
+        content: const Text(
+          "Are you sure you want to delete this post? This cannot be undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text("Delete", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await widget.communityService.deletePost(widget.post.id);
+    }
+  }
+
   Future<void> _translatePost() async {
     if (_translatedContent != null) {
       // Toggle back if already translated? Or just keep it?
@@ -180,6 +207,8 @@ class _PostCardState extends State<_PostCard> {
     final isLiked = user != null && widget.post.likes.contains(user.uid);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final isOwner = user != null && user.uid == widget.post.userId;
 
     final displayContent = _translatedContent ?? widget.post.content;
 
@@ -289,6 +318,14 @@ class _PostCardState extends State<_PostCard> {
                         ),
                 ),
               ),
+              if (isOwner)
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  onPressed: _deletePost,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  splashRadius: 20,
+                ),
             ],
           ),
           const SizedBox(height: 12),
@@ -360,16 +397,37 @@ class _PostCardState extends State<_PostCard> {
                 ),
               ),
               const SizedBox(width: 24),
-              Icon(
-                Icons.comment_outlined,
-                size: 20,
-                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
-              ),
-              const SizedBox(width: 6),
-              Text(
-                "${widget.post.commentsCount}",
-                style: GoogleFonts.outfit(
-                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PostDetailScreen(
+                        post: widget.post,
+                        communityService: widget.communityService,
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.comment_outlined,
+                      size: 20,
+                      color: theme.textTheme.bodyMedium?.color?.withOpacity(
+                        0.6,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      "${widget.post.commentsCount}",
+                      style: GoogleFonts.outfit(
+                        color: theme.textTheme.bodyMedium?.color?.withOpacity(
+                          0.6,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

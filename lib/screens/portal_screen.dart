@@ -20,7 +20,7 @@ class _PortalScreenState extends State<PortalScreen>
           "The Ministry of Agriculture has unveiled a new subsidy plan to support rice farmers during the monsoon season...",
       "date": "2 hours ago",
       "image":
-          "https://images.unsplash.com/photo-1530507629858-e4977d30e9e0?q=80&w=2038&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1530507629858-e4977d30e9e0?q=60&w=600&auto=format&fit=crop",
       "tag": "News",
     },
     {
@@ -29,7 +29,7 @@ class _PortalScreenState extends State<PortalScreen>
           "Market analysis shows a 15% increase in potato prices across major cities as transport strikes continue...",
       "date": "1 day ago",
       "image":
-          "https://images.unsplash.com/photo-1596450514735-37330c6cb4f2?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1508313880080-c4bef0730395?q=80&w=1074&auto=format&fit=crop",
       "tag": "Market",
     },
     {
@@ -38,7 +38,7 @@ class _PortalScreenState extends State<PortalScreen>
           "Farmers in the southern plains warn of a rapid spread of Tuta absoluta. Experts advise immediate action...",
       "date": "2 days ago",
       "image":
-          "https://images.unsplash.com/photo-1591586562478-f73df016c641?q=80&w=2070&auto=format&fit=crop",
+          "https://plus.unsplash.com/premium_photo-1661834835940-c9cf77ec51e0?q=80&w=1172&auto=format&fit=crop",
       "tag": "Alert",
     },
   ];
@@ -50,7 +50,7 @@ class _PortalScreenState extends State<PortalScreen>
           "Using too much fertilizer harms the soil. Learn how to calculate the exact NPK requirements for your crop...",
       "date": "Jan 28, 2026",
       "image":
-          "https://images.unsplash.com/photo-1625246333195-09d9b630dc20?q=80&w=2070&auto=format&fit=crop",
+          "https://plus.unsplash.com/premium_photo-1664297276585-84cbe1aaad9a?q=80&w=1170&auto=format&fit=crop",
       "tag": "Guide",
     },
     {
@@ -59,7 +59,7 @@ class _PortalScreenState extends State<PortalScreen>
           "From drones to AI-based disease detection, see how technology is transforming traditional farming methods...",
       "date": "Jan 25, 2026",
       "image":
-          "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=60&w=600&auto=format&fit=crop",
       "tag": "Tech",
     },
     {
@@ -68,7 +68,7 @@ class _PortalScreenState extends State<PortalScreen>
           "Stop using harsh chemicals. Here are 5 natural remedies to keep your tomato plants healthy and bug-free...",
       "date": "Jan 20, 2026",
       "image":
-          "https://images.unsplash.com/photo-1592841200221-a6898f307baa?q=80&w=1974&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1592841200221-a6898f307baa?q=60&w=600&auto=format&fit=crop",
       "tag": "Organic",
     },
   ];

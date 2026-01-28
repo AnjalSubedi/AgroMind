@@ -94,14 +94,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+
             const SizedBox(height: 16),
-            Text(
-              _requestUser?.name ?? l10n.name,
-              style: GoogleFonts.outfit(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: theme.textTheme.headlineSmall?.color,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _requestUser?.name ?? l10n.name,
+                  style: GoogleFonts.outfit(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: theme.textTheme.headlineSmall?.color,
+                  ),
+                ),
+                if (_requestUser?.isVerified == true) ...[
+                  const SizedBox(width: 8),
+                  const Icon(Icons.verified, color: Colors.blue, size: 24),
+                ],
+              ],
             ),
             Text(
               _requestUser?.location ?? l10n.location,
@@ -461,7 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              "Aananda Bastola\nAnjal Subedi\nAbhiyujan",
+              "Aananda Bastola\nAnjal Subedi\nAbhiujan Baral",
               style: GoogleFonts.outfit(fontSize: 15, height: 1.5),
             ),
             const SizedBox(height: 4),

@@ -145,26 +145,34 @@ class _HomeContentState extends State<_HomeContent> {
                   ],
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.3),
-                      width: 2,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.grey.withOpacity(0.3),
+                        width: 2,
+                      ),
                     ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: colorScheme.primary,
-                    child: Text(
-                      _user?.name.isNotEmpty == true
-                          ? _user!.name[0].toUpperCase()
-                          : "U",
-                      style: GoogleFonts.outfit(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: colorScheme.primary,
+                      child: Text(
+                        _user?.name.isNotEmpty == true
+                            ? _user!.name[0].toUpperCase()
+                            : "U",
+                        style: GoogleFonts.outfit(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -307,62 +315,84 @@ class _HomeContentState extends State<_HomeContent> {
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(20),
+                        clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           color: Colors.orange.shade50,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: Colors.orange.withOpacity(0.3),
                           ),
-                          image: const DecorationImage(
-                            image: NetworkImage(
-                              "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2070&auto=format&fit=crop",
-                            ),
-                            fit: BoxFit.cover,
-                            opacity: 0.2,
-                          ),
                         ),
-                        child: Row(
+                        child: Stack(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                Icons.menu_book_rounded,
-                                color: Colors.white,
-                                size: 24,
+                            Positioned.fill(
+                              child: Image.network(
+                                "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=60&w=600&auto=format&fit=crop",
+                                fit: BoxFit.cover,
+                                color: Colors.white.withOpacity(0.2),
+                                colorBlendMode: BlendMode.dstATop,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        color: Colors.orange.shade50,
+                                      );
+                                    },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: Colors.orange.shade50,
+                                  );
+                                },
                               ),
                             ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    "Know Your Crops",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.brown[900],
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.menu_book_rounded,
+                                      color: Colors.white,
+                                      size: 24,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Read latest news & farming guides",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 14,
-                                      color: Colors.brown[700],
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Know Your Crops",
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.brown[900],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          "Read latest news & farming guides",
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 14,
+                                            color: Colors.brown[700],
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16,
+                                    color: Colors.brown,
                                   ),
                                 ],
                               ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: Colors.brown,
                             ),
                           ],
                         ),
