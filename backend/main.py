@@ -31,6 +31,16 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 
 app = FastAPI(title="Crop Disease Detection API")
 
+# [FIX] CORS Middleware
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # ------------------ IMAGE STORAGE CONFIG (AWS Alternative) ------------------
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -231,9 +241,10 @@ def classify_with_cohere(user_symptoms):
 def load_tomato_models():
     """Load updated Tomato YOLO detector and ResNet50 classifier"""
     global tomato_detector, tomato_classifier
+
     try:
         # 1. YOLO Detector
-        detector_path = os.path.join("models", "tomato_yolo_new.pt") 
+        detector_path = os.path.join(MODELS_PATH, "tomato_yolo_new.pt") 
         if os.path.exists(detector_path):
             print(f" Loading Tomato YOLO from {detector_path}...")
             tomato_detector = YOLO(detector_path) 
@@ -241,7 +252,7 @@ def load_tomato_models():
             print(f" Tomato Detector not found at {detector_path}")
 
         # 2. ResNet50 Classifier
-        classifier_path = os.path.join("models", "tomato_resnet_new.pt")
+        classifier_path = os.path.join(MODELS_PATH, "tomato_resnet_new.pt")
         if os.path.exists(classifier_path):
             print(f" Loading Tomato Classifier (ResNet50) from {classifier_path}...")
             # Initialize ResNet50
@@ -263,7 +274,7 @@ def load_potato_models():
     """Load updated Potato ResNet50 classifier"""
     global potato_model
     try:
-        model_path = os.path.join("models", "potato_resnet50_new.pt")
+        model_path = os.path.join(MODELS_PATH, "potato_resnet50_new.pt")
         if os.path.exists(model_path):
              print(f" Loading Potato Model from {model_path}...")
              # Initialize ResNet50
@@ -290,7 +301,7 @@ def load_rice_models():
     """Load updated Rice ResNet50 classifier"""
     global rice_model
     try:
-        model_path = os.path.join("models", "rice_new.pth")
+        model_path = os.path.join(MODELS_PATH, "rice_new.pth")
         if os.path.exists(model_path):
              print(f" Loading Rice Model from {model_path}...")
              # Initialize ResNet50
