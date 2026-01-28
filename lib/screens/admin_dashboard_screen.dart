@@ -157,7 +157,43 @@ class AdminDashboardScreen extends StatelessWidget {
                                     color: Colors.grey[600],
                                   ),
                                 ),
-                                if (user.location.isNotEmpty)
+                                if (data['address'] != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      "Address: ${data['address']}",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13,
+                                        color: Colors.grey[800],
+                                      ),
+                                    ),
+                                  ),
+                                if (data['almaMatter'] != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      "Alma Matter: ${data['almaMatter']}",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13,
+                                        color: Colors.grey[800],
+                                      ),
+                                    ),
+                                  ),
+                                if (data['verificationKey'] != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      "Key: ${data['verificationKey']}",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: colorScheme.primary,
+                                      ),
+                                    ),
+                                  ),
+                                if (user.location.isNotEmpty &&
+                                    data['address'] ==
+                                        null) // Show location if address is missing
                                   Text(
                                     user.location,
                                     style: GoogleFonts.outfit(

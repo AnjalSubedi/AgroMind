@@ -209,20 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     : SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: () async {
-                            await _authService.requestVerification();
-                            await _loadUserData(); // Refresh UI
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    "Application Sent! We will review shortly.",
-                                  ),
-                                  backgroundColor: Colors.green,
-                                ),
-                              );
-                            }
-                          },
+                          onPressed: () => _showVerificationDialog(context),
                           icon: const Icon(Icons.verified_user_outlined),
                           label: Text(
                             "Apply for Expert Verification",
@@ -256,6 +243,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showVerificationDialog(BuildContext context) {
+    final formKey = GlobalKey<FormState>(); // Use local key
+    final nameController = TextEditingController(
+      text: _requestUser?.name ?? '',
+    );
+    final addressController = TextEditingController(
+      text: _requestUser?.location ?? '',
+    );
+    final almaMatterController = TextEditingController();
+    final rollNoController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Expert Verification",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+        ),
+        content: SingleChildScrollView(
+          // Allow scrolling for mobile
+          child: Form(
+            // Wrap in Form
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(labelText: "Name"),
+                  validator: (v) => v?.isNotEmpty == true ? null : "Required",
+                ),
+                TextFormField(
+                  controller: addressController,
+                  decoration: const InputDecoration(labelText: "Address"),
+                  validator: (v) => v?.isNotEmpty == true ? null : "Required",
+                ),
+                TextFormField(
+                  controller: almaMatterController,
+                  decoration: const InputDecoration(
+                    labelText: "Alma Matter / University",
+                  ),
+                  validator: (v) => v?.isNotEmpty == true ? null : "Required",
+                ),
+                TextFormField(
+                  controller: rollNoController,
+                  decoration: const InputDecoration(
+                    labelText: "Verification Key (e.g. Roll No)",
+                  ),
+                  validator: (v) => v?.isNotEmpty == true ? null : "Required",
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                // Validate
+                Navigator.pop(
+                  context,
+                ); // Close dialog first to avoid multiple clicks
+                // Show loading? Ideally yes, but sticking to simple flow for now.
+
+                await _authService.requestVerification({
+                  'name': nameController.text.trim(),
+                  'address': addressController.text.trim(),
+                  'almaMatter': almaMatterController.text.trim(),
+                  'verificationKey': rollNoController.text.trim(),
+                });
+
+                await _loadUserData(); // Refresh UI
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Application Sent! We will review shortly.",
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text("Submit"),
+          ),
+        ],
       ),
     );
   }

@@ -114,11 +114,14 @@ class AuthService {
   }
 
   // Request Verification
-  Future<void> requestVerification() async {
+  Future<void> requestVerification(
+    Map<String, dynamic> additionalDetails,
+  ) async {
     final user = _auth.currentUser;
     if (user != null) {
       await _firestore.collection('users').doc(user.uid).update({
         'verificationRequested': true,
+        ...additionalDetails,
       });
     }
   }
