@@ -1,5 +1,6 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Form
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form, Request, Response
 from fastapi.responses import JSONResponse
+import sys
 from fastapi.staticfiles import StaticFiles # [NEW]
 from pydantic import BaseModel
 import uvicorn
@@ -663,6 +664,39 @@ def translate_predictions_to_nepali(predictions):
         translated_preds.append(new_p)
         
     return translated_preds
+
+# --- TTS Integration ---
+sys.path.append(os.path.join(os.path.dirname(__file__), 'models'))
+import piper_tts
+import asyncio
+
+@app.post("/api/speak")
+async def speak(request: Request):
+    """Generate audio from text using Piper TTS"""
+    try:
+        data = await request.json()
+        print(f"🔊 Received TTS Request: {data}")  # Debug print
+        
+        text = data.get('text', '')
+        language = data.get('language', 'en')
+        
+        if not text:
+            return JSONResponse(content={'success': False, 'error': 'No text provided'}, status_code=400)
+            
+        print(f"🔊 Generating audio for ({language}): {text[:50]}...")
+        
+        # Generate audio bytes
+        # Using executor to run blocking TTS generation in thread pool
+        loop = asyncio.get_event_loop()
+        audio_bytes = await loop.run_in_executor(None, piper_tts.text_to_speech_bytes, text, language)
+        
+        return Response(content=audio_bytes, media_type="audio/wav")
+        
+    except Exception as e:
+        print(f"❌ TTS Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(content={'success': False, 'error': str(e)}, status_code=500)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

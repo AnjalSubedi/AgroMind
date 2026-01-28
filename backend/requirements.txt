@@ -16,3 +16,5 @@ python-dotenv
 SpeechRecognition
 pydub
 firebase-admin
+
+piper-tts

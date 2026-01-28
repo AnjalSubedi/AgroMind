@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class PredictionResult {
@@ -133,6 +134,27 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('Connection error: $e');
+    }
+  }
+
+  Future<Uint8List> generateAudio(String text, {String language = 'en'}) async {
+    final uri = Uri.parse('$baseUrl/api/speak');
+    try {
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'text': text, 'language': language}),
+      );
+
+      if (response.statusCode == 200) {
+        return response.bodyBytes;
+      } else {
+        throw Exception(
+          'Failed to generate audio: ${response.statusCode} ${response.body}',
+        );
+      }
+    } catch (e) {
+      throw Exception('TTS error: $e');
     }
   }
 }

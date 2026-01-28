@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data'; // For Uint8List
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cropdetect/l10n/app_localizations.dart';
 import '../services/disease_detection_service.dart';
+import '../services/api_service.dart';
+import '../services/model_info_service.dart';
+import 'package:audioplayers/audioplayers.dart'; // Import audioplayers
 
 class ResultScreen extends StatefulWidget {
   final File? image;
@@ -21,10 +25,30 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isPlaying = false;
+  bool _isLoadingAudio = false;
+  String _currentLangPlaying = ''; // 'en' or 'ne' or 'hi'
+
   @override
   void initState() {
     super.initState();
     _saveResult();
+
+    _audioPlayer.onPlayerComplete.listen((event) {
+      if (mounted) {
+        setState(() {
+          _isPlaying = false;
+          _currentLangPlaying = '';
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   Future<void> _saveResult() async {
@@ -36,6 +60,111 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
+  Future<void> _playTTS(String langCode) async {
+    // Stop if already playing requested language
+    if (_isPlaying && _currentLangPlaying == langCode) {
+      await _audioPlayer.stop();
+      setState(() {
+        _isPlaying = false;
+        _currentLangPlaying = '';
+      });
+      return;
+    }
+
+    // Stop previous if playing
+    if (_isPlaying) {
+      await _audioPlayer.stop();
+    }
+
+    setState(() {
+      _isLoadingAudio = true;
+      _currentLangPlaying = langCode;
+    });
+
+    try {
+      String textToRead = "";
+
+      // Check if we need to fetch different language text
+      // Note: Piper uses 'hi' for Hindi/Nepali Devanagari model, but we pass 'ne' logic here
+      // For backend: 'ne' means Nepali (uses Hindi model usually or translates).
+      // Reference implementation used 'hi' for Hindi model.
+      // Our backend wrapper pipe_tts uses 'hi'.
+      // Main.py accepts 'en' or 'hi' (or 'ne' and translates? No, main.py text_to_speech calls piper which supports 'en'/'hi').
+
+      // Simplification: We will pass the text we want read.
+      // If user wants Nepali, we need Nepali text.
+      // We can use ModelInfoService to get the text for the specific locale.
+
+      final modelService = ModelInfoService();
+      await modelService.loadModelInfo();
+
+      // Determine locale for lookup
+      Locale lookupLocale = (langCode == 'ne')
+          ? const Locale('ne')
+          : const Locale('en');
+
+      // Fetch info
+      final info = modelService.getDiseaseInfo(
+        widget.cropName,
+        widget.result.diseaseId,
+        lookupLocale,
+      );
+
+      // Construct text
+      // Check if fallback was used (generic description)
+      bool jsonLookupFailed = info.description.startsWith(
+        "Disease detected. Please consult",
+      );
+
+      // If generic fallback (meaning JSON lookup failed), use the result's actual description (from LLM/Backend)
+      if (jsonLookupFailed) {
+        textToRead =
+            "${widget.result.diseaseName}. ${widget.result.description}. ";
+        if (widget.result.treatment.isNotEmpty) {
+          textToRead += "Treatment: ${widget.result.treatment.join('. ')}";
+        }
+      } else {
+        // Successful JSON lookup! Use high-quality localized info
+        textToRead = "${info.name}. ${info.description}. ";
+        if (info.treatment.isNotEmpty) {
+          textToRead += "Treatment: ${info.treatment.join('. ')}";
+        }
+      }
+
+      // For Piper backend: pass 'hi' for Nepali text (Devanagari), 'en' for English
+      String backendLang = (langCode == 'ne') ? 'hi' : 'en';
+
+      final api = ApiService();
+      final audioBytes = await api.generateAudio(
+        textToRead,
+        language: backendLang,
+      );
+
+      // Play audio from bytes
+      // Audioplayers Source.bytes is valid
+      await _audioPlayer.play(BytesSource(audioBytes));
+
+      if (mounted) {
+        setState(() {
+          _isPlaying = true;
+          _isLoadingAudio = false;
+        });
+      }
+    } catch (e) {
+      debugPrint("TTS Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to play audio: $e')));
+        setState(() {
+          _isLoadingAudio = false;
+          _isPlaying = false;
+          _currentLangPlaying = '';
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -43,9 +172,28 @@ class _ResultScreenState extends State<ResultScreen> {
     final colorScheme = theme.colorScheme;
 
     // Use dynamic data from existing result object
+    // But prefer JSON data if available (Smart Match) to ensuring UI matches TTS
+    final currentLocale = Localizations.localeOf(context);
+    final info = ModelInfoService().getDiseaseInfo(
+      widget.cropName,
+      widget.result.diseaseName,
+      currentLocale,
+    );
+
+    bool isDefault = info.description.startsWith(
+      "Disease detected. Please consult",
+    );
+
     String diseaseName = widget.result.diseaseName;
     String description = widget.result.description;
     List<String> treatment = widget.result.treatment;
+
+    // Override with JSON data if found
+    if (!isDefault) {
+      diseaseName = info.name;
+      description = info.description;
+      treatment = info.treatment;
+    }
 
     // Determine healthy status based on severity or ID
     // The service sets severity to "Low" for healthy plants
@@ -104,6 +252,20 @@ class _ResultScreenState extends State<ResultScreen> {
                         ),
                       ),
               ),
+            ),
+            const SizedBox(height: 24),
+
+            // TTS Buttons Section
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildTTSButton('en', 'Listen (EN)', Icons.volume_up_rounded),
+                _buildTTSButton(
+                  'ne',
+                  'सुन्नुहोस् (NP)',
+                  Icons.volume_up_rounded,
+                ),
+              ],
             ),
             const SizedBox(height: 24),
 
@@ -409,6 +571,34 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTTSButton(String lang, String label, IconData icon) {
+    bool isActive = _currentLangPlaying == lang;
+    bool isLoading = _isLoadingAudio && isActive;
+
+    return ElevatedButton.icon(
+      onPressed: isLoading ? null : () => _playTTS(lang),
+      icon: isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : Icon(isActive ? Icons.stop_rounded : icon),
+      label: Text(isActive ? "Stop" : label),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isActive
+            ? Colors.redAccent
+            : Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
     );
   }

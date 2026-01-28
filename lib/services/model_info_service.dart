@@ -53,42 +53,82 @@ class ModelInfoService {
 
       final cropInfo = _diseaseData![cropKey] as Map<String, dynamic>?;
 
-      if (cropInfo != null) {
-        if (cropInfo.containsKey(className)) {
-          final info = cropInfo[className];
+      Map<String, dynamic>? info;
 
-          bool isNepali = locale.languageCode == 'ne';
+      // 1. Try Specific Crop Lookup
+      if (cropInfo != null && cropInfo.containsKey(className)) {
+        info = cropInfo[className];
+      }
+      // 2. Global Lookup (smart matching)
+      else {
+        // Normalize the class name we are looking for (remove space, underscore, lowercase)
+        String cleanClass = className
+            .toLowerCase()
+            .replaceAll(' ', '')
+            .replaceAll('_', '');
 
-          // Fetch name
-          if (isNepali && info['name_ne'] != null) {
-            name = info['name_ne'];
-          } else {
-            name = info['name'] ?? className;
+        for (var key in _diseaseData!.keys) {
+          final subMap = _diseaseData![key] as Map<String, dynamic>;
+
+          // Iterate all disease keys in this crop
+          for (var diseaseKey in subMap.keys) {
+            String cleanKey = diseaseKey
+                .toLowerCase()
+                .replaceAll(' ', '')
+                .replaceAll('_', '');
+
+            // Check for match (ignoring spaces/underscores/case)
+            // Also check specific potato mapping (Potato___Early_blight vs Early Blight)
+            // Use contains to catch "Potato___Early_blight" containing "earlyblight"
+            if (cleanKey == cleanClass ||
+                cleanKey.contains(cleanClass) ||
+                cleanClass.contains(cleanKey)) {
+              info = subMap[diseaseKey];
+              break;
+            }
           }
+          if (info != null) break;
+        }
+      }
 
-          // Fetch description
-          if (isNepali && info['description_ne'] != null) {
-            description = info['description_ne'];
-          } else {
-            description = info['description'] ?? description;
-          }
+      if (info != null) {
+        bool isNepali = locale.languageCode == 'ne';
 
-          // Fetch treatment
-          List<dynamic>? rawTreatment;
-          if (isNepali && info['treatment_ne'] != null) {
-            rawTreatment = info['treatment_ne'];
-          } else {
-            rawTreatment = info['treatment'];
-          }
+        // Fetch name
+        if (isNepali && info['name_ne'] != null) {
+          name = info['name_ne'];
+        } else {
+          name = info['name'] ?? className;
+        }
 
-          if (rawTreatment != null) {
-            treatment = List<String>.from(rawTreatment);
+        // Fetch description
+        if (isNepali && info['description_ne'] != null) {
+          description = info['description_ne'];
+        } else {
+          description = info['description'] ?? description;
+          // Ensure we don't use the fallback default if description is in JSON
+          if (description ==
+              "Disease detected. Please consult an expert for verification.") {
+            // If JSON description was missing, we might still want to avoid generic if possible
+            // but usually JSON has it.
           }
+        }
 
-          // Fetch citations (Language neutral mostly, but could have _ne if needed)
-          if (info['citations'] != null) {
-            citations = List<String>.from(info['citations']);
-          }
+        // Fetch treatment
+        List<dynamic>? rawTreatment;
+        if (isNepali && info['treatment_ne'] != null) {
+          rawTreatment = info['treatment_ne'];
+        } else {
+          rawTreatment = info['treatment'];
+        }
+
+        if (rawTreatment != null) {
+          treatment = List<String>.from(rawTreatment);
+        }
+
+        // Fetch citations
+        if (info['citations'] != null) {
+          citations = List<String>.from(info['citations']);
         }
       }
     }
