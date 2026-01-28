@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import '../services/community_service.dart';
 import 'package:cropdetect/l10n/app_localizations.dart';
 
@@ -14,19 +12,8 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _contentController = TextEditingController();
-  File? _image;
-  final ImagePicker _picker = ImagePicker();
   bool _isLoading = false;
   final CommunityService _communityService = CommunityService();
-
-  Future<void> _pickImage(ImageSource source) async {
-    final XFile? pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
 
   Future<void> _submitPost() async {
     if (_contentController.text.trim().isEmpty) return;
@@ -35,10 +22,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
-      await _communityService.createPost(
-        _contentController.text.trim(),
-        _image,
-      );
+      await _communityService.createPost(_contentController.text.trim());
       if (!mounted) return;
       Navigator.pop(context);
     } catch (e) {
@@ -127,73 +111,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            if (_image != null)
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.file(
-                      _image!,
-                      width: double.infinity,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _image = null;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: Colors.black54,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            const SizedBox(height: 24),
-            Divider(color: Colors.grey[200]),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.photo_library_outlined,
-                color: colorScheme.primary,
-              ),
-              title: Text(
-                l10n.gallery,
-                style: GoogleFonts.outfit(
-                  color: theme.textTheme.bodyLarge?.color,
-                ),
-              ),
-              onTap: () => _pickImage(ImageSource.gallery),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.camera_alt_outlined,
-                color: colorScheme.primary,
-              ),
-              title: Text(
-                l10n.camera,
-                style: GoogleFonts.outfit(
-                  color: theme.textTheme.bodyLarge?.color,
-                ),
-              ),
-              onTap: () => _pickImage(ImageSource.camera),
-            ),
           ],
         ),
       ),
