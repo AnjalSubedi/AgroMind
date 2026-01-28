@@ -21,9 +21,7 @@ class DiagnoseScreen extends StatefulWidget {
 class _DiagnoseScreenState extends State<DiagnoseScreen> {
   late AudioRecorder _audioRecorder;
   bool _isRecording = false;
-  String _text = '';
   bool _isAnalyzing = false;
-  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -33,7 +31,7 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
 
   @override
   void dispose() {
-    _textController.dispose();
+    // _textController removed
     _audioRecorder.dispose();
     super.dispose();
   }
@@ -75,8 +73,7 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
 
           setState(() {
             _isRecording = true;
-            _text = '';
-            _textController.clear();
+            // _text reset removed
           });
         }
       }
@@ -111,24 +108,7 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
     }
   }
 
-  Future<void> _analyzeText(String text) async {
-    if (text.trim().isEmpty) return;
-
-    setState(() => _isAnalyzing = true);
-    try {
-      final api = ApiService();
-      final String lang = Localizations.localeOf(context).languageCode;
-      final response = await api.diagnoseText(text, languageCode: lang);
-      _processDiagnosisResponse(response, text);
-    } catch (e) {
-      if (mounted)
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
-    } finally {
-      if (mounted) setState(() => _isAnalyzing = false);
-    }
-  }
+  // _analyzeText removed
 
   void _processDiagnosisResponse(
     Map<String, dynamic> response,
@@ -136,10 +116,7 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
   ) {
     if (response['success'] == true && response['predictions'] != null) {
       // Update text field with what was understood
-      setState(() {
-        _text = originalText;
-        _textController.text = originalText;
-      });
+      // Text update removed
 
       final predictions = response['predictions'] as List;
       if (predictions.isNotEmpty) {
@@ -271,50 +248,8 @@ class _DiagnoseScreenState extends State<DiagnoseScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextField(
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        hintText: "Type or speak symptoms...",
-                        hintStyle: GoogleFonts.outfit(color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: theme.cardColor,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                      maxLines: 3,
-                      minLines: 1,
-                      style: GoogleFonts.outfit(),
-                      onChanged: (val) => _text = val,
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _isAnalyzing
-                            ? null
-                            : () => _analyzeText(_textController.text),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        child: Text(
-                          "Diagnose",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const SizedBox(height: 16),
+                    // TextField and Button removed as per request to disable typing symptoms
                   ],
                 ),
               ),
