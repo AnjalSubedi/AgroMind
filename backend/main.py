@@ -336,11 +336,28 @@ rice_preprocess = standard_val_tfms
 
 
 
+
+# ------------------ CONFIG START ------------------
+# Optimization for larger RAM servers (EC2)
+# If True, models stay in memory. If False, they unload to save RAM.
+KEEP_MODELS_LOADED = os.getenv("KEEP_MODELS_LOADED", "False").lower() == "true"
+if KEEP_MODELS_LOADED:
+    print("🚀 PERFORMANCE MODE: Models will stay loaded in memory.")
+else:
+    print("🍃 MEMORY SAVER MODE: Models will unload after use.")
+
+# Initialize CSV only on startup (low memory)
+load_csv()
+
 # ------------------ MEMORY MANAGEMENT ------------------
 import gc
 
 def unload_models():
     """Release all models from memory to prevent OOM"""
+    # If performance mode is on, DO NOT unload.
+    if KEEP_MODELS_LOADED:
+        return
+
     global tomato_detector, tomato_classifier
     global potato_model
     global rice_model
@@ -368,24 +385,26 @@ def ensure_model(model_type: str):
     if model_type == 'tomato':
         if tomato_classifier is not None: return # Already loaded
         print("🔄 Switching to TOMATO model...")
-        unload_models()
+        # Only unload others if we are NOT in keep-loaded mode
+        # actually, standard logic: usually we want only 1 active if low ram.
+        # if keep loaded, we just load this one if missing.
+        if not KEEP_MODELS_LOADED:
+            unload_models()
         load_tomato_models()
         
     elif model_type == 'potato':
         if potato_model is not None: return
         print("🔄 Switching to POTATO model...")
-        unload_models()
+        if not KEEP_MODELS_LOADED:
+            unload_models()
         load_potato_models()
         
     elif model_type == 'rice':
         if rice_model is not None: return
         print("🔄 Switching to RICE model...")
-        unload_models()
+        if not KEEP_MODELS_LOADED:
+            unload_models()
         load_rice_models()
-
-# Initialize CSV only on startup (low memory)
-load_csv()
-# Do NOT load heavy models here. They will load on first request.
 
 
 # ------------------ TOMATO UTILS ------------------

@@ -11,54 +11,96 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
-  bool _isLogin = true;
-  bool _isLoading = false;
-
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _otpController = TextEditingController();
   final _nameController = TextEditingController();
   final _locationController = TextEditingController();
 
   final AuthService _authService = AuthService();
 
+  bool _isLoading = false;
+  bool _codeSent = false;
+  String? _verificationId;
+
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _phoneController.dispose();
+    _otpController.dispose();
     _nameController.dispose();
     _locationController.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  // Step 1: Send OTP
+  Future<void> _verifyPhone() async {
     if (!_formKey.currentState!.validate()) return;
-
     setState(() => _isLoading = true);
 
-    String? error;
-    if (_isLogin) {
-      error = await _authService.signIn(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-    } else {
-      error = await _authService.signUp(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-        name: _nameController.text.trim(),
-        location: _locationController.text.trim(),
-      );
-    }
+    await _authService.verifyPhoneNumber(
+      phoneNumber:
+          "+977${_phoneController.text.trim()}", // Hardcoded Nepal code for hackathon simplicity
+      codeSent: (verificationId, resendToken) {
+        if (mounted) {
+          setState(() {
+            _verificationId = verificationId;
+            _codeSent = true;
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("OTP Sent!")));
+        }
+      },
+      verificationFailed: (e) {
+        if (mounted) {
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Verification Failed: ${e.message}")),
+          );
+        }
+      },
+      verificationCompleted: (credential) async {
+        // Auto-resolve (Android only sometimes)
+        // For simplicity, we usually let user enter code manually in this UI
+      },
+      codeAutoRetrievalTimeout: (verificationId) {
+        _verificationId = verificationId;
+      },
+    );
+  }
 
-    setState(() => _isLoading = false);
+  // Step 2: Verify OTP & Login
+  Future<void> _signInWithOTP() async {
+    if (_verificationId == null) return;
+    setState(() => _isLoading = true);
 
-    if (error != null) {
-      if (mounted) {
+    String? error = await _authService.signInWithOTP(
+      verificationId: _verificationId!,
+      smsCode: _otpController.text.trim(),
+      name: _nameController.text.trim().isEmpty
+          ? "Farmer"
+          : _nameController.text.trim(),
+      location: _locationController.text.trim().isEmpty
+          ? "Nepal"
+          : _locationController.text.trim(),
+    );
+
+    if (mounted) {
+      setState(() => _isLoading = false);
+      if (error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(error), backgroundColor: Colors.red),
         );
+      } else {
+        // Success handled by StreamBuilder in main.dart
       }
     }
+  }
+
+  Future<void> _guestLogin() async {
+    setState(() => _isLoading = true);
+    await _authService.signInAnonymously();
+    if (mounted) setState(() => _isLoading = false);
   }
 
   @override
@@ -72,45 +114,23 @@ class _AuthScreenState extends State<AuthScreen> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: colorScheme.primary.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.local_florist_rounded,
-                  size: 60,
-                  color: colorScheme.primary,
-                ),
-              ),
-              const SizedBox(height: 24),
+              Icon(Icons.lock_open, size: 60, color: colorScheme.primary),
+              const SizedBox(height: 20),
               Text(
-                "Sajilokheti",
+                "SajiloKheti Login",
                 style: GoogleFonts.outfit(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: colorScheme.primary,
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                _isLogin ? "Welcome Back!" : "Create Account",
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
-                ),
-              ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 30),
 
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
-                    if (!_isLogin) ...[
+                    if (!_codeSent) ...[
                       TextFormField(
                         controller: _nameController,
                         decoration: _inputDecoration(
@@ -118,100 +138,67 @@ class _AuthScreenState extends State<AuthScreen> {
                           Icons.person,
                           context,
                         ),
-                        validator: (value) =>
-                            value!.isEmpty ? "Enter your name" : null,
-                        style: GoogleFonts.outfit(
-                          color: theme.textTheme.bodyLarge?.color,
-                        ),
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _locationController,
                         decoration: _inputDecoration(
-                          "Location (e.g. Chitwan)",
+                          "Location",
                           Icons.location_on,
                           context,
                         ),
-                        validator: (value) =>
-                            value!.isEmpty ? "Enter your location" : null,
-                        style: GoogleFonts.outfit(
-                          color: theme.textTheme.bodyLarge?.color,
-                        ),
                       ),
                       const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: _inputDecoration(
+                          "Mobile Number (Example: 9812345678)",
+                          Icons.phone,
+                          context,
+                        ),
+                        validator: (val) =>
+                            val!.length < 10 ? "Enter valid number" : null,
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : _verifyPhone,
+                          child: _isLoading
+                              ? const CircularProgressIndicator()
+                              : const Text("Send OTP"),
+                        ),
+                      ),
+                    ] else ...[
+                      TextFormField(
+                        controller: _otpController,
+                        keyboardType: TextInputType.number,
+                        decoration: _inputDecoration(
+                          "Enter OTP",
+                          Icons.message,
+                          context,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : _signInWithOTP,
+                          child: _isLoading
+                              ? const CircularProgressIndicator()
+                              : const Text("Verify & Login"),
+                        ),
+                      ),
                     ],
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: _inputDecoration(
-                        "Email",
-                        Icons.email,
-                        context,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                          value!.contains('@') ? null : "Enter a valid email",
-                      style: GoogleFonts.outfit(
-                        color: theme.textTheme.bodyLarge?.color,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: _inputDecoration(
-                        "Password",
-                        Icons.lock,
-                        context,
-                      ),
-                      obscureText: true,
-                      validator: (value) => value!.length < 6
-                          ? "Password must be 6+ chars"
-                          : null,
-                      style: GoogleFonts.outfit(
-                        color: theme.textTheme.bodyLarge?.color,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: _isLoading ? null : _submit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: _isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Text(
-                                _isLogin ? "Login" : "Sign Up",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _isLogin = !_isLogin;
-                        });
-                      },
-                      child: Text(
-                        _isLogin
-                            ? "Don't have an account? Sign Up"
-                            : "Already have an account? Login",
-                        style: GoogleFonts.outfit(
-                          color: colorScheme.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+
+                    const Divider(height: 40),
+                    TextButton.icon(
+                      icon: const Icon(Icons.person_outline),
+                      label: const Text("Continue as Guest (Anonymous)"),
+                      onPressed: _isLoading ? null : _guestLogin,
                     ),
                   ],
                 ),
@@ -228,39 +215,10 @@ class _AuthScreenState extends State<AuthScreen> {
     IconData icon,
     BuildContext context,
   ) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(
-        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
-      ),
-      prefixIcon: Icon(icon, color: colorScheme.primary),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: theme.brightness == Brightness.dark
-              ? Colors.white24
-              : Colors.grey[300]!,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: theme.brightness == Brightness.dark
-              ? Colors.white24
-              : Colors.grey[300]!,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: colorScheme.primary, width: 2),
-      ),
-      filled: true,
-      fillColor: theme.brightness == Brightness.dark
-          ? colorScheme.surface
-          : Colors.grey[50],
+      prefixIcon: Icon(icon),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
     );
   }
 }
