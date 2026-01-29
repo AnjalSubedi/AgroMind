@@ -3,21 +3,21 @@ Description=CropDetect FastAPI Backend
 After=network.target
 
 [Service]
-# Change this user to your EC2 user (usually 'ubuntu')
-User=ubuntu
-Group=ubuntu
+# Change this user to your EC2 user (usually 'ec2-user' for Amazon Linux)
+User=ec2-user
+Group=ec2-user
 
 # Set the working directory to where you cloned the repo + /backend
-WorkingDirectory=/home/ubuntu/cropdetect/backend
+WorkingDirectory=/home/ec2-user/cropdetect/backend
 
 # Set the environment variable for Performance Mode
 Environment="KEEP_MODELS_LOADED=True"
-Environment="PATH=/home/ubuntu/cropdetect/backend/venv/bin"
+Environment="PATH=/home/ec2-user/cropdetect/backend/venv/bin"
 # Add your other env vars here or use EnvironmentFile
 # Environment="COHERE_API_KEY=your_key_here"
 
 # Command to run (using venv's uvicorn)
-ExecStart=/home/ubuntu/cropdetect/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+ExecStart=/home/ec2-user/cropdetect/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
 
 # Restart on crash
 Restart=always

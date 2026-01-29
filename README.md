@@ -37,6 +37,9 @@ SajiloKheti is an agricultural assistant application built to assist farmers in 
 - **Authentication**: Firebase Auth (Email, Phone, Anonymous)
 - **Machine Learning**: Custom trained models
 
+## System Architecture
+![system architecture](621192450_886961257415193_3134096215146624090_n.png)
+
 ## Project Structure
 
 - `android/`: Android native configuration and code.
@@ -81,6 +84,48 @@ SajiloKheti is an agricultural assistant application built to assist farmers in 
    ```bash
    python backend/main.py
    ```
+
+## AWS EC2 Deployment
+
+### Prerequisites
+- Amazon Linux 2023 instance (t2.medium or larger)
+- Security Group: Allow SSH (22) and TCP (8000)
+
+### Quick Setup
+
+1. **SSH into your instance**
+```bash
+   ssh -i your-key.pem ec2-user@<your-ec2-ip>
+```
+
+2. **Clone and setup**
+```bash
+   git clone https://github.com/AnjalSubedi/AgroMind.git
+   cd AgroMind/backend
+   chmod +x setup_ec2.sh
+   ./setup_ec2.sh
+```
+
+3. **Run as service (optional - for auto-restart)**
+```bash
+   sudo cp AgroMind.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now AgroMind
+```
+
+4. **Access your API**
+```
+   http://<your-ec2-ip>:8000
+```
+
+## App Screenshots
+![app screenshot](2.jpeg)
+![app screenshot](1.jpeg)
+![alt text](3.jpeg)
+![alt text](4.jpeg)
+![alt text](5.jpeg)
+![alt text](7.jpeg)
+![alt text](8.jpeg)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

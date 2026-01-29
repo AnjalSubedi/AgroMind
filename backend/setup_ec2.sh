@@ -7,13 +7,27 @@ echo "🚀 Starting EC2 Setup for CropDetect..."
 
 # 1. Update System & Install Dependencies
 echo "📦 Installing system dependencies..."
-sudo apt-get update
-sudo apt-get install -y \
+sudo yum update -y
+sudo yum install -y \
     python3-pip \
-    python3-venv \
-    ffmpeg \
-    libgl1-mesa-glx \
-    libglib2.0-0
+    python3-devel \
+    mesa-libGL \
+    glib2
+
+# Note: FFmpeg is not in standard Amazon Linux repositories.
+# You may need to install it from a static build or enable a repository like RPMFusion.
+# Attempting to install if available or providing a fallback message.
+if ! command -v ffmpeg &> /dev/null; then
+    echo "⚠️  FFmpeg not found. Attempting to install tarball..."
+    # Download static release
+    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+    tar -xf ffmpeg-release-amd64-static.tar.xz
+    # Move to /usr/local/bin (assuming generic name in extracted folder, usually ffmpeg-*-static)
+    sudo cp ffmpeg-*-static/ffmpeg /usr/local/bin/
+    sudo cp ffmpeg-*-static/ffprobe /usr/local/bin/
+    # cleanup
+    rm -rf ffmpeg-release-amd64-static.tar.xz ffmpeg-*-static
+fi
 
 # 2. Setup Python Virtual Environment
 echo "🐍 Setting up Python Virtual Environment..."
