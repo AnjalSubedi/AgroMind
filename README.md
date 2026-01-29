@@ -60,7 +60,7 @@ SajiloKheti is an agricultural assistant application built to assist farmers in 
 ### Application Setup
 1. Clone the repository.
    ```bash
-   git clone https://github.com/yourusername/sajilokheti.git
+   git clone https://github.com/AnjalSubedi/AgroMind.git
    ```
 2. Install Flutter dependencies.
    ```bash

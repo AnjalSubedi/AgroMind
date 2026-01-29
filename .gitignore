@@ -53,3 +53,4 @@ venv/
 .venv/
 env/
 .env/
+backend/serviceAccountKey.json
