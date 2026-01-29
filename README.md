@@ -119,13 +119,25 @@ SajiloKheti is an agricultural assistant application built to assist farmers in 
 ```
 
 ## App Screenshots
-![app screenshot](2.jpeg)
-![app screenshot](1.jpeg)
-![alt text](3.jpeg)
-![alt text](4.jpeg)
-![alt text](5.jpeg)
-![alt text](7.jpeg)
-![alt text](8.jpeg)
+
+<p align="center">
+  <img src="2.jpeg" alt="Dashboard" width="300"/>
+  <img src="1.jpeg" alt="Crop Recommendation" width="300"/>
+</p>
+
+<p align="center">
+  <img src="3.jpeg" alt="Disease Detection" width="300"/>
+  <img src="4.jpeg" alt="Analytics" width="300"/>
+</p>
+
+<p align="center">
+  <img src="5.jpeg" alt="Yield Prediction" width="300"/>
+  <img src="7.jpeg" alt="Weather Integration" width="300"/>
+</p>
+
+<p align="center">
+  <img src="8.jpeg" alt="Settings" width="300"/>
+</p>
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
