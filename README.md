@@ -8,7 +8,7 @@ SajiloKheti is an agricultural assistant application built to assist farmers in 
 - **Visual Diagnosis**: Uses image recognition to detect diseases in Rice, Potato, and Tomato crops.
 - **Audio Diagnosis**: Voice-to-Text capability allowing users to describe symptoms for preliminary diagnosis.
 - **Detailed Reports**: Provides disease identification, confidence scores, symptoms, causes, and treatment recommendations.
-
+  
 ### Expert Verification
 - **Verification System**: Allows agricultural experts to apply for verification using professional credentials.
 - **Admin Dashboard**: Dedicated interface for administrators to review and approve verification requests.
